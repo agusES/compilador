@@ -1,0 +1,181 @@
+package ejemplo.jflex;
+
+import java_cup.runtime.*;
+import java.util.ArrayList;
+import java.util.List;
+import java.io.FileReader;
+import java.util.logging.Level;
+import java.util.logging.Logger;
+
+class MiParser;
+
+parser code
+{:
+    public void syntax_error(Symbol s){
+        System.out.println("Error en la linea "+ (s.left+1)+ " Columna "+ s.right+ ". Valor simbolo '"
+        +s.value+"' . Simbolo n° "+s.sym+ " no reconocido." );
+    }
+
+    public void unrecovered_syntax_error(Symbol s) throws java.lang.Exception{
+        System.out.println("Error en la linea "+ (s.left+1)+ " Columna "+ s.right+ ". Valor simbolo '"
+        +s.value+"' . Simbolo n° "+s.sym+ " no reconocido." );
+    }
+
+:};
+
+
+terminal MAIN, CONST, LLAVEABRE, LLAVECIERRA, ID, VARS, TIPO, FUNCTION, RESULT, IF, THEN, ELSE, WHILE, DO , UNTIL, REPEAT, MAS, MENOS, POR, DIVIDIDO;
+terminal PUNTO_COMA, TRUE, FALSE, AND, OR, BETWEEN, STRING, PARENABRE, PARENCIERRA, IGUAL, DOSPUNTOS, IS, COMPARADOR, ENTERO, NADA;
+nonterminal programa, const, constantes, constante, vars, func, sentencias, variables, variable, termino, factor;
+nonterminal expbool, between, bloque, ids, parametros, parametro, sentencia, return, asig, asigs, if, while, until, condicion, exp;
+
+start with programa;
+
+programa ::= MAIN const vars func sentencias
+            {:  
+                System.out.println("Soy un Programa");
+            :};
+
+bloque ::= LLAVEABRE sentencias LLAVECIERRA {: System.out.println("Soy un bloque");:};
+
+
+sentencias ::= sentencias sentencia PUNTO_COMA {::} | sentencia PUNTO_COMA {::};
+
+func ::= FUNCTION ID PARENABRE parametros PARENCIERRA DOSPUNTOS TIPO IS LLAVEABRE const vars sentencias return LLAVECIERRA{:
+                System.out.println("SOY UNA FUNCION");
+
+:};
+
+return ::= RESULT IGUAL exp{:
+                System.out.println("SOY EL RETURN");
+
+:};
+
+const ::= CONST LLAVEABRE constantes LLAVECIERRA{:  
+                System.out.println("SECTOR CONSTANTES");
+            :}|NADA{:
+                System.out.println("NO HAY CONSTANTES");
+:};
+
+
+constantes ::= constante {:
+                System.out.println("UNA CONSTANTE");
+
+            :}| constantes constante {:
+                System.out.println("VARIAS CONSTANTES");
+:};
+
+constante ::= ID DOSPUNTOS TIPO IGUAL exp {:
+                System.out.println("CONSTANTE");
+
+:};
+
+vars ::= VARS LLAVEABRE variables LLAVECIERRA
+            {:  
+                System.out.println("SECTOR VARIABLES");
+            :}|NADA{:
+                System.out.println("NO HAY VARIABLES");
+:};
+
+variables ::= variable {:
+                System.out.println("UNA VARIABLE");
+
+:} |
+              variables variable {:
+                System.out.println("VARIAS VARIABLES");
+
+:};
+
+variable ::= ids DOSPUNTOS TIPO {:
+                System.out.println("VARIABLE");
+
+:};
+
+ids ::= ID {:
+        System.out.println("UN ID");
+
+:} | ids ID {:
+        System.out.println("VARIOS IDS");
+
+:};
+
+parametros ::= parametro {:
+        System.out.println("UN PARAMETRO");
+
+:} | parametros parametro {:
+        System.out.println("VARIOS PARAMETROs");
+
+:};
+
+parametro ::= ID DOSPUNTOS TIPO;
+
+sentencia ::= asig | asigs | if | while | until;
+
+asig ::= ID IGUAL exp {:
+    System.out.println("soy una asignacion comun");
+:}| ID IGUAL expbool{:System.out.println("soy una asignacion booleana"); :};
+
+asigs ::= ID IGUAL asig {:
+
+:} | ID IGUAL asigs {:
+
+:};
+
+if ::= IF condicion THEN bloque {: 
+                System.out.println("Soy un if");
+       :} |
+       IF condicion THEN bloque ELSE bloque {:
+                System.out.println("Soy un if con else");
+       :};
+
+while ::= WHILE condicion DO bloque {:System.out.println("Soy un while");:};
+
+until ::= UNTIL condicion REPEAT bloque {:System.out.println("Soy un until");:};
+
+between ::= factor BETWEEN factor AND factor {:System.out.println("Soy un between");:};
+
+condicion ::= PARENABRE exp COMPARADOR exp PARENCIERRA | PARENABRE exp PARENCIERRA;
+
+exp ::= exp MAS termino {:
+                System.out.println("expresion::=expresion+factor;");
+            :}
+            |
+            exp MENOS termino {:
+                System.out.println("expresion::=expresion-factor;");
+            :}
+             |
+             termino {:
+                System.out.println("expresion::=termino;");
+            :} |
+             STRING:s {:System.out.println("expresion::=string: " + s + ";");:}; 
+expbool ::= TRUE {:
+                System.out.println("expresion::=between;");
+            :}
+            | FALSE{: System.out.println("expresion::=between;");
+            :}
+            |
+            between {:
+                System.out.println("expresion::=between;");
+            :};
+termino ::= termino POR factor {:
+                System.out.println("termino::=factor*termino;");
+            :}
+            |
+            termino DIVIDIDO factor {:
+                System.out.println("termino::=factor/termino;");
+            :}
+            |
+            factor {:
+                System.out.println("termino::=factor;");
+            :}; 
+factor ::= ENTERO:e {:
+                System.out.println("factor::="+e+";");
+             :}
+             |
+             ID:identificador {:
+                System.out.println("factor::=" + identificador +";");
+             :}
+            |
+            PARENABRE exp PARENCIERRA {:
+                System.out.println("factor::=(expresion);");
+            :};

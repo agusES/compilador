@@ -1,0 +1,31 @@
+main
+const
+{
+    id:int=2
+}
+vars
+{
+    hola:int
+}
+function primero(h:int):int is
+{
+    const
+    {
+        id:int=3
+    }
+    vars
+    {
+        chau:int
+    }
+    
+    hola= "hola mundo";
+    aux = 0;
+
+/* hola mundo comentario */
+    result=2
+}
+if(a>1)then
+{
+    hola=1;
+};
+chau = 1 between 0 && 2;
