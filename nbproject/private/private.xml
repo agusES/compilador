@@ -3,13 +3,11 @@
     <editor-bookmarks xmlns="http://www.netbeans.org/ns/editor-bookmarks/2" lastBookmarkId="0"/>
     <open-files xmlns="http://www.netbeans.org/ns/projectui-open-files/2">
         <group>
-            <file>file:/C:/Users/Flynn/Documents/compiladores/Ejemplo%20JFlex%20JavaCup/src/ejemplo/jflex/Generador.java</file>
-            <file>file:/C:/Users/Flynn/Documents/compiladores/Ejemplo%20JFlex%20JavaCup/src/ejemplo/jflex/entrada.txt</file>
-            <file>file:/C:/Users/Flynn/Documents/compiladores/Ejemplo%20JFlex%20JavaCup/src/ejemplo/jflex/MiParser.java</file>
-            <file>file:/C:/Users/Flynn/Documents/compiladores/Ejemplo%20JFlex%20JavaCup/src/ejemplo/jflex/MiLexico.java</file>
-            <file>file:/C:/Users/Flynn/Documents/compiladores/Ejemplo%20JFlex%20JavaCup/src/ejemplo/jflex/parser.cup</file>
-            <file>file:/C:/Users/Flynn/Documents/compiladores/Ejemplo%20JFlex%20JavaCup/src/ejemplo/jflex/lexico.flex</file>
-            <file>file:/C:/Users/Flynn/Documents/compiladores/Ejemplo%20JFlex%20JavaCup/src/ejemplo/jflex/EjemploJFlex.java</file>
+            <file>file:/C:/Users/Flynn/Documents/GitHub/compilador/src/ejemplo/jflex/lexico.flex</file>
+            <file>file:/C:/Users/Flynn/Documents/GitHub/compilador/src/ejemplo/jflex/parser.cup</file>
+            <file>file:/C:/Users/Flynn/Documents/GitHub/compilador/src/ejemplo/jflex/EjemploJavaCup.java</file>
+            <file>file:/C:/Users/Flynn/Documents/GitHub/compilador/src/ejemplo/jflex/MiParser.java</file>
+            <file>file:/C:/Users/Flynn/Documents/GitHub/compilador/src/ejemplo/jflex/entrada.txt</file>
         </group>
     </open-files>
 </project-private>

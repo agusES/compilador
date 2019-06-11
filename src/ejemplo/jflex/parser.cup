@@ -36,7 +36,9 @@ programa ::= MAIN const vars func sentencias
                 System.out.println("Soy un Programa");
             :};
 
-bloque ::= LLAVEABRE sentencias LLAVECIERRA {: System.out.println("Soy un bloque");:};
+bloque ::= LLAVEABRE sentencias LLAVECIERRA {: System.out.println("Soy un bloque");
+                                                RESULT= "bloque";
+                                            :};
 
 
 sentencias ::= sentencias sentencia PUNTO_COMA {::} | sentencia PUNTO_COMA {::};
@@ -91,7 +93,7 @@ variable ::= ids DOSPUNTOS TIPO {:
 
 :};
 
-ids ::= ID {:
+ids ::= ID:id {:
         System.out.println("UN ID");
 
 :} | ids ID {:
@@ -121,8 +123,8 @@ asigs ::= ID IGUAL asig {:
 
 :};
 
-if ::= IF condicion THEN bloque {: 
-                System.out.println("Soy un if");
+if ::= IF condicion:c THEN bloque:b {: 
+                System.out.println("if " + c + " then " + b);
        :} |
        IF condicion THEN bloque ELSE bloque {:
                 System.out.println("Soy un if con else");
@@ -132,9 +134,9 @@ while ::= WHILE condicion DO bloque {:System.out.println("Soy un while");:};
 
 until ::= UNTIL condicion REPEAT bloque {:System.out.println("Soy un until");:};
 
-between ::= factor BETWEEN factor AND factor {:System.out.println("Soy un between");:};
+between ::= factor:f BETWEEN factor:f1 AND factor:f2 {:System.out.println( f + " between " + f1 + " AND " + f2);:};
 
-condicion ::= PARENABRE exp COMPARADOR exp PARENCIERRA | PARENABRE exp PARENCIERRA;
+condicion ::= PARENABRE exp:e COMPARADOR:c exp:e2 PARENCIERRA {:RESULT= "(" + e + c+ e2+")";:} | PARENABRE exp:e3 PARENCIERRA {:RESULT= "(" + e3 +")";:};
 
 exp ::= exp MAS termino {:
                 System.out.println("expresion::=expresion+factor;");
@@ -144,14 +146,15 @@ exp ::= exp MAS termino {:
                 System.out.println("expresion::=expresion-factor;");
             :}
              |
-             termino {:
+             termino:t {:
                 System.out.println("expresion::=termino;");
+                RESULT= t;
             :} |
              STRING:s {:System.out.println("expresion::=string: " + s + ";");:}; 
 expbool ::= TRUE {:
-                System.out.println("expresion::=between;");
+                System.out.println("expresion::=true;");
             :}
-            | FALSE{: System.out.println("expresion::=between;");
+            | FALSE{: System.out.println("expresion::=false;");
             :}
             |
             between {:
@@ -165,15 +168,18 @@ termino ::= termino POR factor {:
                 System.out.println("termino::=factor/termino;");
             :}
             |
-            factor {:
-                System.out.println("termino::=factor;");
+            factor: f {:
+                System.out.println("termino::=factor " + f + ";");
+                RESULT=f;
             :}; 
 factor ::= ENTERO:e {:
-                System.out.println("factor::="+e+";");
+                // System.out.println("factor::="+e+";");
+                RESULT = e;
              :}
              |
              ID:identificador {:
-                System.out.println("factor::=" + identificador +";");
+                // System.out.println("factor::=" + identificador +";");
+                RESULT=identificador;
              :}
             |
             PARENABRE exp PARENCIERRA {:

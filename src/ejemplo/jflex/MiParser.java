@@ -308,6 +308,8 @@ class CUP$MiParser$actions {
             {
               Object RESULT =null;
 		 System.out.println("Soy un bloque");
+                                                RESULT= "bloque";
+                                            
               CUP$MiParser$result = parser.getSymbolFactory().newSymbol("bloque",13, ((java_cup.runtime.Symbol)CUP$MiParser$stack.elementAt(CUP$MiParser$top-2)), ((java_cup.runtime.Symbol)CUP$MiParser$stack.peek()), RESULT);
             }
           return CUP$MiParser$result;
@@ -473,6 +475,9 @@ class CUP$MiParser$actions {
           case 17: // ids ::= ID 
             {
               Object RESULT =null;
+		int idleft = ((java_cup.runtime.Symbol)CUP$MiParser$stack.peek()).left;
+		int idright = ((java_cup.runtime.Symbol)CUP$MiParser$stack.peek()).right;
+		Object id = (Object)((java_cup.runtime.Symbol) CUP$MiParser$stack.peek()).value;
 		
         System.out.println("UN ID");
 
@@ -617,8 +622,14 @@ class CUP$MiParser$actions {
           case 31: // if ::= IF condicion THEN bloque 
             {
               Object RESULT =null;
+		int cleft = ((java_cup.runtime.Symbol)CUP$MiParser$stack.elementAt(CUP$MiParser$top-2)).left;
+		int cright = ((java_cup.runtime.Symbol)CUP$MiParser$stack.elementAt(CUP$MiParser$top-2)).right;
+		Object c = (Object)((java_cup.runtime.Symbol) CUP$MiParser$stack.elementAt(CUP$MiParser$top-2)).value;
+		int bleft = ((java_cup.runtime.Symbol)CUP$MiParser$stack.peek()).left;
+		int bright = ((java_cup.runtime.Symbol)CUP$MiParser$stack.peek()).right;
+		Object b = (Object)((java_cup.runtime.Symbol) CUP$MiParser$stack.peek()).value;
 		 
-                System.out.println("Soy un if");
+                System.out.println("if " + c + " then " + b);
        
               CUP$MiParser$result = parser.getSymbolFactory().newSymbol("if",21, ((java_cup.runtime.Symbol)CUP$MiParser$stack.elementAt(CUP$MiParser$top-3)), ((java_cup.runtime.Symbol)CUP$MiParser$stack.peek()), RESULT);
             }
@@ -657,7 +668,16 @@ class CUP$MiParser$actions {
           case 35: // between ::= factor BETWEEN factor AND factor 
             {
               Object RESULT =null;
-		System.out.println("Soy un between");
+		int fleft = ((java_cup.runtime.Symbol)CUP$MiParser$stack.elementAt(CUP$MiParser$top-4)).left;
+		int fright = ((java_cup.runtime.Symbol)CUP$MiParser$stack.elementAt(CUP$MiParser$top-4)).right;
+		Object f = (Object)((java_cup.runtime.Symbol) CUP$MiParser$stack.elementAt(CUP$MiParser$top-4)).value;
+		int f1left = ((java_cup.runtime.Symbol)CUP$MiParser$stack.elementAt(CUP$MiParser$top-2)).left;
+		int f1right = ((java_cup.runtime.Symbol)CUP$MiParser$stack.elementAt(CUP$MiParser$top-2)).right;
+		Object f1 = (Object)((java_cup.runtime.Symbol) CUP$MiParser$stack.elementAt(CUP$MiParser$top-2)).value;
+		int f2left = ((java_cup.runtime.Symbol)CUP$MiParser$stack.peek()).left;
+		int f2right = ((java_cup.runtime.Symbol)CUP$MiParser$stack.peek()).right;
+		Object f2 = (Object)((java_cup.runtime.Symbol) CUP$MiParser$stack.peek()).value;
+		System.out.println( f + " between " + f1 + " AND " + f2);
               CUP$MiParser$result = parser.getSymbolFactory().newSymbol("between",12, ((java_cup.runtime.Symbol)CUP$MiParser$stack.elementAt(CUP$MiParser$top-4)), ((java_cup.runtime.Symbol)CUP$MiParser$stack.peek()), RESULT);
             }
           return CUP$MiParser$result;
@@ -666,7 +686,16 @@ class CUP$MiParser$actions {
           case 36: // condicion ::= PARENABRE exp COMPARADOR exp PARENCIERRA 
             {
               Object RESULT =null;
-
+		int eleft = ((java_cup.runtime.Symbol)CUP$MiParser$stack.elementAt(CUP$MiParser$top-3)).left;
+		int eright = ((java_cup.runtime.Symbol)CUP$MiParser$stack.elementAt(CUP$MiParser$top-3)).right;
+		Object e = (Object)((java_cup.runtime.Symbol) CUP$MiParser$stack.elementAt(CUP$MiParser$top-3)).value;
+		int cleft = ((java_cup.runtime.Symbol)CUP$MiParser$stack.elementAt(CUP$MiParser$top-2)).left;
+		int cright = ((java_cup.runtime.Symbol)CUP$MiParser$stack.elementAt(CUP$MiParser$top-2)).right;
+		Object c = (Object)((java_cup.runtime.Symbol) CUP$MiParser$stack.elementAt(CUP$MiParser$top-2)).value;
+		int e2left = ((java_cup.runtime.Symbol)CUP$MiParser$stack.elementAt(CUP$MiParser$top-1)).left;
+		int e2right = ((java_cup.runtime.Symbol)CUP$MiParser$stack.elementAt(CUP$MiParser$top-1)).right;
+		Object e2 = (Object)((java_cup.runtime.Symbol) CUP$MiParser$stack.elementAt(CUP$MiParser$top-1)).value;
+		RESULT= "(" + e + c+ e2+")";
               CUP$MiParser$result = parser.getSymbolFactory().newSymbol("condicion",24, ((java_cup.runtime.Symbol)CUP$MiParser$stack.elementAt(CUP$MiParser$top-4)), ((java_cup.runtime.Symbol)CUP$MiParser$stack.peek()), RESULT);
             }
           return CUP$MiParser$result;
@@ -675,7 +704,10 @@ class CUP$MiParser$actions {
           case 37: // condicion ::= PARENABRE exp PARENCIERRA 
             {
               Object RESULT =null;
-
+		int e3left = ((java_cup.runtime.Symbol)CUP$MiParser$stack.elementAt(CUP$MiParser$top-1)).left;
+		int e3right = ((java_cup.runtime.Symbol)CUP$MiParser$stack.elementAt(CUP$MiParser$top-1)).right;
+		Object e3 = (Object)((java_cup.runtime.Symbol) CUP$MiParser$stack.elementAt(CUP$MiParser$top-1)).value;
+		RESULT= "(" + e3 +")";
               CUP$MiParser$result = parser.getSymbolFactory().newSymbol("condicion",24, ((java_cup.runtime.Symbol)CUP$MiParser$stack.elementAt(CUP$MiParser$top-2)), ((java_cup.runtime.Symbol)CUP$MiParser$stack.peek()), RESULT);
             }
           return CUP$MiParser$result;
@@ -706,8 +738,12 @@ class CUP$MiParser$actions {
           case 40: // exp ::= termino 
             {
               Object RESULT =null;
+		int tleft = ((java_cup.runtime.Symbol)CUP$MiParser$stack.peek()).left;
+		int tright = ((java_cup.runtime.Symbol)CUP$MiParser$stack.peek()).right;
+		Object t = (Object)((java_cup.runtime.Symbol) CUP$MiParser$stack.peek()).value;
 		
                 System.out.println("expresion::=termino;");
+                RESULT= t;
             
               CUP$MiParser$result = parser.getSymbolFactory().newSymbol("exp",25, ((java_cup.runtime.Symbol)CUP$MiParser$stack.peek()), ((java_cup.runtime.Symbol)CUP$MiParser$stack.peek()), RESULT);
             }
@@ -730,7 +766,7 @@ class CUP$MiParser$actions {
             {
               Object RESULT =null;
 		
-                System.out.println("expresion::=between;");
+                System.out.println("expresion::=true;");
             
               CUP$MiParser$result = parser.getSymbolFactory().newSymbol("expbool",11, ((java_cup.runtime.Symbol)CUP$MiParser$stack.peek()), ((java_cup.runtime.Symbol)CUP$MiParser$stack.peek()), RESULT);
             }
@@ -740,7 +776,7 @@ class CUP$MiParser$actions {
           case 43: // expbool ::= FALSE 
             {
               Object RESULT =null;
-		 System.out.println("expresion::=between;");
+		 System.out.println("expresion::=false;");
             
               CUP$MiParser$result = parser.getSymbolFactory().newSymbol("expbool",11, ((java_cup.runtime.Symbol)CUP$MiParser$stack.peek()), ((java_cup.runtime.Symbol)CUP$MiParser$stack.peek()), RESULT);
             }
@@ -783,8 +819,12 @@ class CUP$MiParser$actions {
           case 47: // termino ::= factor 
             {
               Object RESULT =null;
+		int fleft = ((java_cup.runtime.Symbol)CUP$MiParser$stack.peek()).left;
+		int fright = ((java_cup.runtime.Symbol)CUP$MiParser$stack.peek()).right;
+		Object f = (Object)((java_cup.runtime.Symbol) CUP$MiParser$stack.peek()).value;
 		
-                System.out.println("termino::=factor;");
+                System.out.println("termino::=factor " + f + ";");
+                RESULT=f;
             
               CUP$MiParser$result = parser.getSymbolFactory().newSymbol("termino",9, ((java_cup.runtime.Symbol)CUP$MiParser$stack.peek()), ((java_cup.runtime.Symbol)CUP$MiParser$stack.peek()), RESULT);
             }
@@ -798,7 +838,8 @@ class CUP$MiParser$actions {
 		int eright = ((java_cup.runtime.Symbol)CUP$MiParser$stack.peek()).right;
 		Object e = (Object)((java_cup.runtime.Symbol) CUP$MiParser$stack.peek()).value;
 		
-                System.out.println("factor::="+e+";");
+                // System.out.println("factor::="+e+";");
+                RESULT = e;
              
               CUP$MiParser$result = parser.getSymbolFactory().newSymbol("factor",10, ((java_cup.runtime.Symbol)CUP$MiParser$stack.peek()), ((java_cup.runtime.Symbol)CUP$MiParser$stack.peek()), RESULT);
             }
@@ -812,7 +853,8 @@ class CUP$MiParser$actions {
 		int identificadorright = ((java_cup.runtime.Symbol)CUP$MiParser$stack.peek()).right;
 		Object identificador = (Object)((java_cup.runtime.Symbol) CUP$MiParser$stack.peek()).value;
 		
-                System.out.println("factor::=" + identificador +";");
+                // System.out.println("factor::=" + identificador +";");
+                RESULT=identificador;
              
               CUP$MiParser$result = parser.getSymbolFactory().newSymbol("factor",10, ((java_cup.runtime.Symbol)CUP$MiParser$stack.peek()), ((java_cup.runtime.Symbol)CUP$MiParser$stack.peek()), RESULT);
             }
