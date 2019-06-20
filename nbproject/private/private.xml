@@ -5,8 +5,8 @@
         <group>
             <file>file:/C:/Users/Flynn/Documents/GitHub/compilador/src/ejemplo/jflex/lexico.flex</file>
             <file>file:/C:/Users/Flynn/Documents/GitHub/compilador/src/ejemplo/jflex/parser.cup</file>
-            <file>file:/C:/Users/Flynn/Documents/GitHub/compilador/src/ejemplo/jflex/EjemploJavaCup.java</file>
             <file>file:/C:/Users/Flynn/Documents/GitHub/compilador/src/ejemplo/jflex/MiParser.java</file>
+            <file>file:/C:/Users/Flynn/Documents/GitHub/compilador/src/ejemplo/jflex/MiParserSym.java</file>
             <file>file:/C:/Users/Flynn/Documents/GitHub/compilador/src/ejemplo/jflex/entrada.txt</file>
         </group>
     </open-files>

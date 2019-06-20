@@ -25,8 +25,8 @@ parser code
 
 
 terminal MAIN, CONST, LLAVEABRE, LLAVECIERRA, ID, VARS, TIPO, FUNCTION, RESULT, IF, THEN, ELSE, WHILE, DO , UNTIL, REPEAT, MAS, MENOS, POR, DIVIDIDO;
-terminal PUNTO_COMA, TRUE, FALSE, AND, OR, BETWEEN, STRING, PARENABRE, PARENCIERRA, IGUAL, DOSPUNTOS, IS, COMPARADOR, ENTERO, NADA;
-nonterminal programa, const, constantes, constante, vars, func, sentencias, variables, variable, termino, factor;
+terminal MAYOR, MENOR, EQUAL, DIFF, MAYOREQUAL, MENOREQUAL, PUNTO_COMA, TRUE, FALSE, AND, OR, BETWEEN, STRING, PARENABRE, PARENCIERRA, IGUAL, DOSPUNTOS, IS, ENTERO;
+nonterminal programa, const, constantes, constante, vars, func, sentencias, variables, variable, termino, factor, comparador, termbool;
 nonterminal expbool, between, bloque, ids, parametros, parametro, sentencia, return, asig, asigs, if, while, until, condicion, exp;
 
 start with programa;
@@ -36,12 +36,11 @@ programa ::= MAIN const vars func sentencias
                 System.out.println("Soy un Programa");
             :};
 
-bloque ::= LLAVEABRE sentencias LLAVECIERRA {: System.out.println("Soy un bloque");
-                                                RESULT= "bloque";
-                                            :};
+bloque ::= LLAVEABRE sentencias LLAVECIERRA {: System.out.println("Soy un bloque"); RESULT="bloque";:};
 
 
-sentencias ::= sentencias sentencia PUNTO_COMA {::} | sentencia PUNTO_COMA {::};
+sentencias ::= sentencias sentencia PUNTO_COMA {: System.out.println("Soy muchas sentencias"); :} 
+| sentencia PUNTO_COMA {:System.out.println("Soy una sentencia");:};
 
 func ::= FUNCTION ID PARENABRE parametros PARENCIERRA DOSPUNTOS TIPO IS LLAVEABRE const vars sentencias return LLAVECIERRA{:
                 System.out.println("SOY UNA FUNCION");
@@ -55,8 +54,9 @@ return ::= RESULT IGUAL exp{:
 
 const ::= CONST LLAVEABRE constantes LLAVECIERRA{:  
                 System.out.println("SECTOR CONSTANTES");
-            :}|NADA{:
+            :}|{:
                 System.out.println("NO HAY CONSTANTES");
+                RESULT=(Symbol) null;
 :};
 
 
@@ -75,7 +75,7 @@ constante ::= ID DOSPUNTOS TIPO IGUAL exp {:
 vars ::= VARS LLAVEABRE variables LLAVECIERRA
             {:  
                 System.out.println("SECTOR VARIABLES");
-            :}|NADA{:
+            :}|{:
                 System.out.println("NO HAY VARIABLES");
 :};
 
@@ -93,9 +93,8 @@ variable ::= ids DOSPUNTOS TIPO {:
 
 :};
 
-ids ::= ID:id {:
+ids ::= ID {:
         System.out.println("UN ID");
-
 :} | ids ID {:
         System.out.println("VARIOS IDS");
 
@@ -105,22 +104,26 @@ parametros ::= parametro {:
         System.out.println("UN PARAMETRO");
 
 :} | parametros parametro {:
-        System.out.println("VARIOS PARAMETROs");
+        System.out.println("VARIOS PARAMETROS");
 
 :};
 
-parametro ::= ID DOSPUNTOS TIPO;
+parametro ::= ID DOSPUNTOS TIPO {:System.out.println("Soy un parametro"); :};
 
-sentencia ::= asig | asigs | if | while | until;
+sentencia ::= asig {: System.out.println("Soy una asignacion simple en una sentencia");:} 
+            | asigs {: System.out.println("Soy una asignacion compleja en una sentencia");:} 
+            | if:i {: System.out.println(i);:} 
+            | while {: System.out.println("Soy un while en una sentencia");:} 
+            | until {: System.out.println("Soy un until en una sentencia");:};
 
 asig ::= ID IGUAL exp {:
     System.out.println("soy una asignacion comun");
 :}| ID IGUAL expbool{:System.out.println("soy una asignacion booleana"); :};
 
 asigs ::= ID IGUAL asig {:
-
+    System.out.println("Soy una asignacion simple");
 :} | ID IGUAL asigs {:
-
+    System.out.println("Soy una asignacion compleja");
 :};
 
 if ::= IF condicion:c THEN bloque:b {: 
@@ -134,9 +137,19 @@ while ::= WHILE condicion DO bloque {:System.out.println("Soy un while");:};
 
 until ::= UNTIL condicion REPEAT bloque {:System.out.println("Soy un until");:};
 
-between ::= factor:f BETWEEN factor:f1 AND factor:f2 {:System.out.println( f + " between " + f1 + " AND " + f2);:};
+between ::= exp:e1 BETWEEN exp:e2 AND exp:e3 {:System.out.println( e1 + " between " + e2 + " AND " + e3);:};
 
-condicion ::= PARENABRE exp:e COMPARADOR:c exp:e2 PARENCIERRA {:RESULT= "(" + e + c+ e2+")";:} | PARENABRE exp:e3 PARENCIERRA {:RESULT= "(" + e3 +")";:};
+condicion ::= PARENABRE exp:e comparador:c exp:e2 PARENCIERRA {: RESULT= "(" + e + c+ e2+")";:}
+ | PARENABRE expbool:e3 PARENCIERRA {: RESULT= "(" + e3 +")";:};
+
+
+comparador ::= MAYOR:ma {: RESULT= ma;:} 
+| MENOR:me {: System.out.println("Soy un menor");RESULT= me; :}
+| EQUAL:eq {: System.out.println("Soy un igual");RESULT= eq; :}
+| DIFF:dif {: System.out.println("Soy un distinto");RESULT= dif; :}
+| MAYOREQUAL:ge {: System.out.println("Soy un mayor o igual");RESULT= ge; :}
+| MENOREQUAL:me {: System.out.println("Soy un menor o igual");RESULT= me; :};
+
 
 exp ::= exp MAS termino {:
                 System.out.println("expresion::=expresion+factor;");
@@ -150,38 +163,50 @@ exp ::= exp MAS termino {:
                 System.out.println("expresion::=termino;");
                 RESULT= t;
             :} |
-             STRING:s {:System.out.println("expresion::=string: " + s + ";");:}; 
-expbool ::= TRUE {:
-                System.out.println("expresion::=true;");
+             STRING:s {:System.out.println("expresion::=string: " + s + ";");
+                RESULT= s;:}; 
+termbool ::= TRUE:t {:
+                System.out.println("Soy un TRUE");
+                RESULT= t;
             :}
-            | FALSE{: System.out.println("expresion::=false;");
+            | FALSE:f{: System.out.println("Soy un FALSE");
+                RESULT= f;
             :}
             |
-            between {:
+            between:b {:
                 System.out.println("expresion::=between;");
-            :};
-termino ::= termino POR factor {:
+                RESULT= b;
+            :}
+            | condicion: c {: System.out.println("Soy una condicion en termino bool");
+                RESULT= c; :};
+
+expbool ::=  expbool:e1 AND:a termbool:e2 {: System.out.println("Soy un AND");RESULT= e1 +" and "+ e2; :}
+            | expbool:e3 OR:o termbool:e4 {: System.out.println("Soy un OR"); RESULT= e3 +" or "+ e4;:}
+            | termbool:t {: 
+                 RESULT= t;
+                :};
+
+termino ::= termino:t POR factor:f {:
                 System.out.println("termino::=factor*termino;");
+                RESULT= t +" * "+ f;
             :}
             |
-            termino DIVIDIDO factor {:
+            termino:t1 DIVIDIDO factor:f1 {:
                 System.out.println("termino::=factor/termino;");
+                RESULT= t1+ " / " + f1;
             :}
             |
-            factor: f {:
-                System.out.println("termino::=factor " + f + ";");
-                RESULT=f;
+            factor:f {:
+                 RESULT= f;
             :}; 
 factor ::= ENTERO:e {:
-                // System.out.println("factor::="+e+";");
-                RESULT = e;
+                RESULT= e;
              :}
              |
              ID:identificador {:
-                // System.out.println("factor::=" + identificador +";");
-                RESULT=identificador;
+                RESULT= identificador;
              :}
             |
-            PARENABRE exp PARENCIERRA {:
-                System.out.println("factor::=(expresion);");
+            PARENABRE:pa exp:e PARENCIERRA:pc {:
+                 RESULT= "("+e+")";
             :};

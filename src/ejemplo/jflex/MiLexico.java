@@ -15,6 +15,10 @@ package ejemplo.jflex;
 import java.util.ArrayList;
 import java_cup.runtime.*;
 import java_cup.sym;
+import java.nio.file.*;
+import java.io.File;
+import java.io.FileOutputStream; 
+import java.io.OutputStream; 
 
 /****************************************************************************
  * Las siguientes directivas afectan el comportamiento del analizador léxico:
@@ -59,13 +63,13 @@ public class MiLexico implements java_cup.runtime.Scanner {
    * Translates characters to character classes
    */
   private static final String ZZ_CMAP_PACKED = 
-    "\11\0\1\3\1\2\1\0\1\3\1\1\22\0\1\3\1\0\1\55"+
-    "\3\0\1\15\1\0\1\17\1\20\1\5\1\21\1\0\1\22\1\52"+
-    "\1\4\1\7\11\6\1\24\1\23\1\12\1\14\1\13\2\0\5\10"+
-    "\1\54\15\10\1\53\6\10\1\0\1\56\2\0\1\10\1\0\1\30"+
-    "\1\51\1\33\1\47\1\43\1\41\1\10\1\45\1\31\2\10\1\44"+
-    "\1\27\1\32\1\34\1\50\1\10\1\40\1\35\1\36\1\42\1\37"+
-    "\1\46\3\10\1\25\1\16\1\26\54\0\1\10\12\0\1\10\4\0"+
+    "\11\0\1\3\1\2\1\0\1\3\1\1\22\0\1\3\1\15\1\56"+
+    "\3\0\1\13\1\0\1\20\1\21\1\5\1\22\1\0\1\23\1\53"+
+    "\1\4\1\7\11\6\1\25\1\24\1\16\1\12\1\17\2\0\5\10"+
+    "\1\55\15\10\1\54\6\10\1\0\1\57\2\0\1\10\1\0\1\31"+
+    "\1\52\1\34\1\50\1\44\1\42\1\10\1\46\1\32\2\10\1\45"+
+    "\1\30\1\33\1\35\1\51\1\10\1\41\1\36\1\37\1\43\1\40"+
+    "\1\47\3\10\1\26\1\14\1\27\54\0\1\10\12\0\1\10\4\0"+
     "\1\10\5\0\27\10\1\0\37\10\1\0\u01ca\10\4\0\14\10\16\0"+
     "\5\10\7\0\1\10\1\0\1\10\21\0\160\11\5\10\1\0\2\10"+
     "\2\0\4\10\1\0\1\10\6\0\1\10\1\0\3\10\1\0\1\10"+
@@ -235,18 +239,18 @@ public class MiLexico implements java_cup.runtime.Scanner {
   private static final int [] ZZ_ACTION = zzUnpackAction();
 
   private static final String ZZ_ACTION_PACKED_0 =
-    "\1\1\1\0\1\2\2\3\1\4\1\5\1\6\2\7"+
-    "\1\10\2\11\1\12\2\2\1\13\1\14\1\15\1\16"+
-    "\1\17\1\20\1\21\1\22\14\10\1\2\1\23\1\24"+
-    "\1\25\1\26\1\27\1\0\1\30\1\31\2\10\1\32"+
-    "\1\33\10\10\1\34\1\10\2\0\1\35\1\36\1\37"+
-    "\1\40\2\27\2\0\1\10\1\41\12\10\1\42\1\43"+
-    "\1\0\1\27\1\44\1\10\1\45\1\46\4\10\1\47"+
-    "\2\10\1\50\3\10\1\51\1\52\1\10\1\53\1\54"+
-    "\3\10\1\55\1\56";
+    "\2\0\1\1\2\2\1\3\1\4\1\5\2\6\1\7"+
+    "\1\10\3\1\1\11\1\12\1\13\1\14\1\15\1\16"+
+    "\1\17\1\20\1\21\1\22\14\7\1\1\1\23\1\24"+
+    "\1\25\1\26\1\27\1\0\1\30\1\31\1\32\1\33"+
+    "\1\34\1\35\2\7\1\36\1\37\10\7\1\40\1\7"+
+    "\2\0\1\41\1\42\1\43\1\44\2\27\2\0\1\7"+
+    "\1\45\12\7\1\46\1\47\1\0\1\27\1\50\1\7"+
+    "\1\51\1\52\4\7\1\53\2\7\1\54\3\7\1\55"+
+    "\1\56\1\7\1\57\1\60\3\7\1\61\1\62";
 
   private static int [] zzUnpackAction() {
-    int [] result = new int[110];
+    int [] result = new int[115];
     int offset = 0;
     offset = zzUnpackAction(ZZ_ACTION_PACKED_0, offset, result);
     return result;
@@ -271,23 +275,24 @@ public class MiLexico implements java_cup.runtime.Scanner {
   private static final int [] ZZ_ROWMAP = zzUnpackRowMap();
 
   private static final String ZZ_ROWMAP_PACKED_0 =
-    "\0\0\0\57\0\136\0\215\0\136\0\136\0\274\0\136"+
-    "\0\353\0\136\0\u011a\0\u0149\0\136\0\u0178\0\u01a7\0\u01d6"+
-    "\0\136\0\136\0\136\0\136\0\136\0\136\0\136\0\136"+
-    "\0\u0205\0\u0234\0\u0263\0\u0292\0\u02c1\0\u02f0\0\u031f\0\u034e"+
-    "\0\u037d\0\u03ac\0\u03db\0\u040a\0\u0439\0\136\0\u0468\0\136"+
-    "\0\u0497\0\u04c6\0\u04f5\0\136\0\136\0\u0524\0\u0553\0\u011a"+
-    "\0\u011a\0\u0582\0\u05b1\0\u05e0\0\u060f\0\u063e\0\u066d\0\u069c"+
-    "\0\u06cb\0\u011a\0\u06fa\0\u0729\0\u0758\0\136\0\136\0\136"+
-    "\0\136\0\u0787\0\136\0\u07b6\0\u07e5\0\u0814\0\u011a\0\u0843"+
-    "\0\u0872\0\u08a1\0\u08d0\0\u08ff\0\u092e\0\u095d\0\u098c\0\u09bb"+
-    "\0\u09ea\0\136\0\136\0\u0a19\0\u07b6\0\u011a\0\u0a48\0\u011a"+
-    "\0\u011a\0\u0a77\0\u0aa6\0\u0ad5\0\u0b04\0\u011a\0\u0b33\0\u0b62"+
-    "\0\u011a\0\u0b91\0\u0bc0\0\u0bef\0\u011a\0\u011a\0\u0c1e\0\u011a"+
-    "\0\u011a\0\u0c4d\0\u0c7c\0\u0cab\0\u011a\0\u011a";
+    "\0\0\0\60\0\140\0\220\0\140\0\140\0\300\0\140"+
+    "\0\360\0\140\0\u0120\0\u0150\0\u0180\0\u01b0\0\u01e0\0\u0210"+
+    "\0\u0240\0\140\0\140\0\140\0\140\0\140\0\140\0\140"+
+    "\0\140\0\u0270\0\u02a0\0\u02d0\0\u0300\0\u0330\0\u0360\0\u0390"+
+    "\0\u03c0\0\u03f0\0\u0420\0\u0450\0\u0480\0\u04b0\0\140\0\u04e0"+
+    "\0\140\0\u0510\0\u0540\0\u0570\0\140\0\140\0\140\0\140"+
+    "\0\140\0\140\0\u05a0\0\u05d0\0\u0120\0\u0120\0\u0600\0\u0630"+
+    "\0\u0660\0\u0690\0\u06c0\0\u06f0\0\u0720\0\u0750\0\u0120\0\u0780"+
+    "\0\u07b0\0\u07e0\0\140\0\140\0\140\0\140\0\u0810\0\140"+
+    "\0\u0840\0\u0870\0\u08a0\0\u0120\0\u08d0\0\u0900\0\u0930\0\u0960"+
+    "\0\u0990\0\u09c0\0\u09f0\0\u0a20\0\u0a50\0\u0a80\0\140\0\140"+
+    "\0\u0ab0\0\u0840\0\u0120\0\u0ae0\0\u0120\0\u0120\0\u0b10\0\u0b40"+
+    "\0\u0b70\0\u0ba0\0\u0120\0\u0bd0\0\u0c00\0\u0120\0\u0c30\0\u0c60"+
+    "\0\u0c90\0\u0120\0\u0120\0\u0cc0\0\u0120\0\u0120\0\u0cf0\0\u0d20"+
+    "\0\u0d50\0\u0120\0\u0120";
 
   private static int [] zzUnpackRowMap() {
-    int [] result = new int[110];
+    int [] result = new int[115];
     int offset = 0;
     offset = zzUnpackRowMap(ZZ_ROWMAP_PACKED_0, offset, result);
     return result;
@@ -313,69 +318,70 @@ public class MiLexico implements java_cup.runtime.Scanner {
     "\1\3\1\4\1\5\1\6\1\7\1\10\1\11\1\12"+
     "\1\13\1\3\1\14\1\15\1\16\1\17\1\20\1\21"+
     "\1\22\1\23\1\24\1\25\1\26\1\27\1\30\1\31"+
-    "\1\13\1\32\1\13\1\33\2\13\1\34\1\35\1\36"+
-    "\1\37\1\40\1\41\2\13\1\42\1\43\1\13\1\44"+
-    "\1\45\2\13\1\46\1\3\1\47\2\3\52\47\1\50"+
-    "\1\51\61\0\1\5\60\0\1\52\1\53\57\0\2\11"+
-    "\55\0\4\13\15\0\23\13\1\0\2\13\15\0\1\15"+
-    "\57\0\1\15\57\0\1\54\57\0\1\55\46\0\4\13"+
-    "\15\0\1\13\1\56\21\13\1\0\2\13\10\0\4\13"+
-    "\15\0\3\13\1\57\2\13\1\60\3\13\1\61\10\13"+
-    "\1\0\2\13\10\0\4\13\15\0\5\13\1\62\15\13"+
-    "\1\0\2\13\10\0\4\13\15\0\16\13\1\63\4\13"+
-    "\1\0\2\13\10\0\4\13\15\0\1\13\1\64\21\13"+
-    "\1\0\2\13\10\0\4\13\15\0\14\13\1\65\6\13"+
-    "\1\0\2\13\10\0\4\13\15\0\13\13\1\66\7\13"+
-    "\1\0\2\13\10\0\4\13\15\0\3\13\1\67\17\13"+
-    "\1\0\2\13\10\0\4\13\15\0\15\13\1\70\5\13"+
-    "\1\0\2\13\10\0\4\13\15\0\16\13\1\71\4\13"+
-    "\1\0\2\13\10\0\4\13\15\0\5\13\1\72\15\13"+
-    "\1\0\2\13\10\0\4\13\15\0\14\13\1\73\6\13"+
-    "\1\0\2\13\55\0\1\74\1\75\2\0\1\47\2\0"+
-    "\52\47\34\0\1\76\3\0\1\77\1\0\1\100\14\0"+
-    "\1\101\1\0\1\52\1\102\1\103\54\52\5\104\1\105"+
-    "\51\104\6\0\4\13\15\0\2\13\1\106\20\13\1\0"+
-    "\2\13\10\0\4\13\15\0\7\13\1\107\13\13\1\0"+
-    "\2\13\10\0\4\13\15\0\3\13\1\110\17\13\1\0"+
-    "\2\13\10\0\4\13\15\0\14\13\1\111\6\13\1\0"+
-    "\2\13\10\0\4\13\15\0\11\13\1\112\11\13\1\0"+
-    "\2\13\10\0\4\13\15\0\6\13\1\113\12\13\1\114"+
-    "\1\13\1\0\2\13\10\0\4\13\15\0\3\13\1\115"+
-    "\17\13\1\0\2\13\10\0\4\13\15\0\7\13\1\116"+
-    "\13\13\1\0\2\13\10\0\4\13\15\0\6\13\1\117"+
-    "\14\13\1\0\2\13\10\0\4\13\15\0\2\13\1\120"+
-    "\20\13\1\0\2\13\10\0\4\13\15\0\7\13\1\121"+
-    "\13\13\1\0\2\13\54\0\1\122\56\0\1\123\6\0"+
-    "\1\103\54\0\5\104\1\124\55\104\1\125\1\124\51\104"+
-    "\6\0\4\13\15\0\3\13\1\126\17\13\1\0\2\13"+
-    "\10\0\4\13\15\0\6\13\1\127\14\13\1\0\2\13"+
-    "\10\0\4\13\15\0\3\13\1\130\17\13\1\0\2\13"+
-    "\10\0\4\13\15\0\6\13\1\131\14\13\1\0\2\13"+
-    "\10\0\4\13\15\0\13\13\1\132\7\13\1\0\2\13"+
-    "\10\0\4\13\15\0\14\13\1\133\6\13\1\0\2\13"+
-    "\10\0\4\13\15\0\4\13\1\134\16\13\1\0\2\13"+
-    "\10\0\4\13\15\0\2\13\1\135\20\13\1\0\2\13"+
-    "\10\0\4\13\15\0\14\13\1\136\6\13\1\0\2\13"+
-    "\10\0\4\13\15\0\15\13\1\137\5\13\1\0\2\13"+
-    "\10\0\4\13\15\0\17\13\1\140\3\13\1\0\2\13"+
-    "\2\0\4\104\1\103\1\124\51\104\6\0\4\13\15\0"+
-    "\7\13\1\141\13\13\1\0\2\13\10\0\4\13\15\0"+
-    "\15\13\1\142\5\13\1\0\2\13\10\0\4\13\15\0"+
-    "\1\13\1\143\21\13\1\0\2\13\10\0\4\13\15\0"+
-    "\7\13\1\144\13\13\1\0\2\13\10\0\4\13\15\0"+
-    "\15\13\1\145\5\13\1\0\2\13\10\0\4\13\15\0"+
-    "\14\13\1\146\6\13\1\0\2\13\10\0\4\13\15\0"+
-    "\14\13\1\147\6\13\1\0\2\13\10\0\4\13\15\0"+
-    "\7\13\1\150\13\13\1\0\2\13\10\0\4\13\15\0"+
-    "\7\13\1\151\13\13\1\0\2\13\10\0\4\13\15\0"+
-    "\2\13\1\152\20\13\1\0\2\13\10\0\4\13\15\0"+
-    "\14\13\1\153\6\13\1\0\2\13\10\0\4\13\15\0"+
-    "\5\13\1\154\15\13\1\0\2\13\10\0\4\13\15\0"+
-    "\3\13\1\155\17\13\1\0\2\13\10\0\4\13\15\0"+
-    "\3\13\1\156\17\13\1\0\2\13\2\0";
+    "\1\32\1\13\1\33\1\13\1\34\2\13\1\35\1\36"+
+    "\1\37\1\40\1\41\1\42\2\13\1\43\1\44\1\13"+
+    "\1\45\1\46\2\13\1\47\1\3\1\50\2\3\53\50"+
+    "\1\51\1\52\62\0\1\5\61\0\1\53\1\54\60\0"+
+    "\2\11\56\0\4\13\16\0\23\13\1\0\2\13\14\0"+
+    "\1\55\60\0\1\56\60\0\1\57\55\0\1\60\57\0"+
+    "\1\61\57\0\1\62\53\0\4\13\16\0\1\13\1\63"+
+    "\21\13\1\0\2\13\10\0\4\13\16\0\3\13\1\64"+
+    "\2\13\1\65\3\13\1\66\10\13\1\0\2\13\10\0"+
+    "\4\13\16\0\5\13\1\67\15\13\1\0\2\13\10\0"+
+    "\4\13\16\0\16\13\1\70\4\13\1\0\2\13\10\0"+
+    "\4\13\16\0\1\13\1\71\21\13\1\0\2\13\10\0"+
+    "\4\13\16\0\14\13\1\72\6\13\1\0\2\13\10\0"+
+    "\4\13\16\0\13\13\1\73\7\13\1\0\2\13\10\0"+
+    "\4\13\16\0\3\13\1\74\17\13\1\0\2\13\10\0"+
+    "\4\13\16\0\15\13\1\75\5\13\1\0\2\13\10\0"+
+    "\4\13\16\0\16\13\1\76\4\13\1\0\2\13\10\0"+
+    "\4\13\16\0\5\13\1\77\15\13\1\0\2\13\10\0"+
+    "\4\13\16\0\14\13\1\100\6\13\1\0\2\13\56\0"+
+    "\1\101\1\102\2\0\1\50\2\0\53\50\35\0\1\103"+
+    "\3\0\1\104\1\0\1\105\14\0\1\106\1\0\1\53"+
+    "\1\107\1\110\55\53\5\111\1\112\52\111\6\0\4\13"+
+    "\16\0\2\13\1\113\20\13\1\0\2\13\10\0\4\13"+
+    "\16\0\7\13\1\114\13\13\1\0\2\13\10\0\4\13"+
+    "\16\0\3\13\1\115\17\13\1\0\2\13\10\0\4\13"+
+    "\16\0\14\13\1\116\6\13\1\0\2\13\10\0\4\13"+
+    "\16\0\11\13\1\117\11\13\1\0\2\13\10\0\4\13"+
+    "\16\0\6\13\1\120\12\13\1\121\1\13\1\0\2\13"+
+    "\10\0\4\13\16\0\3\13\1\122\17\13\1\0\2\13"+
+    "\10\0\4\13\16\0\7\13\1\123\13\13\1\0\2\13"+
+    "\10\0\4\13\16\0\6\13\1\124\14\13\1\0\2\13"+
+    "\10\0\4\13\16\0\2\13\1\125\20\13\1\0\2\13"+
+    "\10\0\4\13\16\0\7\13\1\126\13\13\1\0\2\13"+
+    "\55\0\1\127\57\0\1\130\6\0\1\110\55\0\5\111"+
+    "\1\131\56\111\1\132\1\131\52\111\6\0\4\13\16\0"+
+    "\3\13\1\133\17\13\1\0\2\13\10\0\4\13\16\0"+
+    "\6\13\1\134\14\13\1\0\2\13\10\0\4\13\16\0"+
+    "\3\13\1\135\17\13\1\0\2\13\10\0\4\13\16\0"+
+    "\6\13\1\136\14\13\1\0\2\13\10\0\4\13\16\0"+
+    "\13\13\1\137\7\13\1\0\2\13\10\0\4\13\16\0"+
+    "\14\13\1\140\6\13\1\0\2\13\10\0\4\13\16\0"+
+    "\4\13\1\141\16\13\1\0\2\13\10\0\4\13\16\0"+
+    "\2\13\1\142\20\13\1\0\2\13\10\0\4\13\16\0"+
+    "\14\13\1\143\6\13\1\0\2\13\10\0\4\13\16\0"+
+    "\15\13\1\144\5\13\1\0\2\13\10\0\4\13\16\0"+
+    "\17\13\1\145\3\13\1\0\2\13\2\0\4\111\1\110"+
+    "\1\131\52\111\6\0\4\13\16\0\7\13\1\146\13\13"+
+    "\1\0\2\13\10\0\4\13\16\0\15\13\1\147\5\13"+
+    "\1\0\2\13\10\0\4\13\16\0\1\13\1\150\21\13"+
+    "\1\0\2\13\10\0\4\13\16\0\7\13\1\151\13\13"+
+    "\1\0\2\13\10\0\4\13\16\0\15\13\1\152\5\13"+
+    "\1\0\2\13\10\0\4\13\16\0\14\13\1\153\6\13"+
+    "\1\0\2\13\10\0\4\13\16\0\14\13\1\154\6\13"+
+    "\1\0\2\13\10\0\4\13\16\0\7\13\1\155\13\13"+
+    "\1\0\2\13\10\0\4\13\16\0\7\13\1\156\13\13"+
+    "\1\0\2\13\10\0\4\13\16\0\2\13\1\157\20\13"+
+    "\1\0\2\13\10\0\4\13\16\0\14\13\1\160\6\13"+
+    "\1\0\2\13\10\0\4\13\16\0\5\13\1\161\15\13"+
+    "\1\0\2\13\10\0\4\13\16\0\3\13\1\162\17\13"+
+    "\1\0\2\13\10\0\4\13\16\0\3\13\1\163\17\13"+
+    "\1\0\2\13\2\0";
 
   private static int [] zzUnpackTrans() {
-    int [] result = new int[3290];
+    int [] result = new int[3456];
     int offset = 0;
     offset = zzUnpackTrans(ZZ_TRANS_PACKED_0, offset, result);
     return result;
@@ -413,13 +419,13 @@ public class MiLexico implements java_cup.runtime.Scanner {
   private static final int [] ZZ_ATTRIBUTE = zzUnpackAttribute();
 
   private static final String ZZ_ATTRIBUTE_PACKED_0 =
-    "\1\1\1\0\1\11\1\1\2\11\1\1\1\11\1\1"+
-    "\1\11\2\1\1\11\3\1\10\11\15\1\1\11\1\1"+
-    "\1\11\2\1\1\0\2\11\16\1\2\0\4\11\1\1"+
-    "\1\11\2\0\14\1\2\11\1\0\32\1";
+    "\2\0\1\11\1\1\2\11\1\1\1\11\1\1\1\11"+
+    "\7\1\10\11\15\1\1\11\1\1\1\11\2\1\1\0"+
+    "\6\11\16\1\2\0\4\11\1\1\1\11\2\0\14\1"+
+    "\2\11\1\0\32\1";
 
   private static int [] zzUnpackAttribute() {
-    int [] result = new int[110];
+    int [] result = new int[115];
     int offset = 0;
     offset = zzUnpackAttribute(ZZ_ATTRIBUTE_PACKED_0, offset, result);
     return result;
@@ -500,7 +506,10 @@ public class MiLexico implements java_cup.runtime.Scanner {
     * como parte de la definición de la clase del analizador léxico.
     * Típicamente serán variables de instancia o nuevos métodos de la clase.
     *************************************************************************/
-    StringBuffer string = new StringBuffer();
+    public byte[] entrada;
+    public static String FILEPATH = "C:\\Users\\flynn\\ts.txt"; 
+    public static File file = new File(FILEPATH);     
+    public StringBuffer string = new StringBuffer();
     public ArrayList<MiToken> tablaDeSimbolos = new ArrayList<>();
  
     private MiToken token(String nombre) {
@@ -510,6 +519,7 @@ public class MiLexico implements java_cup.runtime.Scanner {
     private MiToken token(String nombre, Object valor) {
         return new MiToken(nombre, this.yyline, this.yycolumn, valor);
     }
+   
 
 
   /**
@@ -518,6 +528,15 @@ public class MiLexico implements java_cup.runtime.Scanner {
    * @param   in  the java.io.Reader to read input from.
    */
   public MiLexico(java.io.Reader in) {
+      try {
+        if (file.createNewFile()) {
+            System.out.println("Archivo creado");
+        }
+    } catch(Exception e) {
+            e.printStackTrace();
+            System.out.println("Error al crear el archivo");
+    }
+
     this.zzReader = in;
   }
 
@@ -897,242 +916,296 @@ public class MiLexico implements java_cup.runtime.Scanner {
       else {
         switch (zzAction < 0 ? zzAction : ZZ_ACTION[zzAction]) {
           case 1: 
-            { return token("NADA", yytext());
-            } 
-            // fall through
-          case 47: break;
-          case 2: 
             { throw new Error("Caracter no permitido: <" + yytext() + ">");
             } 
             // fall through
-          case 48: break;
-          case 3: 
+          case 51: break;
+          case 2: 
             { /* Fin de Linea, se ignora*/
             } 
             // fall through
-          case 49: break;
-          case 4: 
+          case 52: break;
+          case 3: 
             { /* Espacio en blanco no hace nada*/
             } 
             // fall through
-          case 50: break;
-          case 5: 
+          case 53: break;
+          case 4: 
             { return token("DIVIDIDO", yytext());
             } 
             // fall through
-          case 51: break;
-          case 6: 
+          case 54: break;
+          case 5: 
             { return token("POR", yytext());
             } 
             // fall through
-          case 52: break;
-          case 7: 
-            { MiToken token = new MiToken("ENTERO", yytext()); 
-                                  tablaDeSimbolos.add(token);
-                                  return token;
-            } 
-            // fall through
-          case 53: break;
-          case 8: 
-            { MiToken token = new MiToken("ID", yytext()); 
-                                  tablaDeSimbolos.add(token);
-                                  return token;
-            } 
-            // fall through
-          case 54: break;
-          case 9: 
-            { return token ("COMPARADOR", yytext());
-            } 
-            // fall through
           case 55: break;
-          case 10: 
-            { return token("IGUAL", yytext());
+          case 6: 
+            { MiToken token = new MiToken("ENTERO", yytext());
+                                  try {
+                                    entrada = "ENTERO ".getBytes();
+                                    Files.write(Paths.get(FILEPATH), entrada, StandardOpenOption.APPEND);
+                                    entrada = (yytext() + "\n").getBytes();
+                                    Files.write(Paths.get(FILEPATH), entrada, StandardOpenOption.APPEND);
+                                    tablaDeSimbolos.add(token);
+
+                                  } catch(Exception e) {
+                                        e.printStackTrace();
+                                        System.out.println("Error en grabando en el archivo token ENTERO");
+                                  }
+
+                                  return token;
             } 
             // fall through
           case 56: break;
+          case 7: 
+            { MiToken token = new MiToken("ID", yytext());
+                                  try {
+                                    entrada = "ID ".getBytes();
+                                    Files.write(Paths.get(FILEPATH), entrada, StandardOpenOption.APPEND);
+                                    entrada = (yytext() + "\n").getBytes();
+                                    Files.write(Paths.get(FILEPATH), entrada, StandardOpenOption.APPEND);
+                                    tablaDeSimbolos.add(token);
+
+                                  } catch(Exception e) {
+                                        e.printStackTrace();
+                                        System.out.println("Error en grabando en el archivo token ID");
+                                  }
+                                  
+                                  return token;
+            } 
+            // fall through
+          case 57: break;
+          case 8: 
+            { return token("IGUAL", yytext());
+            } 
+            // fall through
+          case 58: break;
+          case 9: 
+            { return token("MENOR", yytext());
+            } 
+            // fall through
+          case 59: break;
+          case 10: 
+            { return token("MAYOR", yytext());
+            } 
+            // fall through
+          case 60: break;
           case 11: 
             { return token("PARENABRE", yytext());
             } 
             // fall through
-          case 57: break;
+          case 61: break;
           case 12: 
             { return token("PARENCIERRA", yytext());
             } 
             // fall through
-          case 58: break;
+          case 62: break;
           case 13: 
             { return token("MAS", yytext());
             } 
             // fall through
-          case 59: break;
+          case 63: break;
           case 14: 
             { return token("MENOS", yytext());
             } 
             // fall through
-          case 60: break;
+          case 64: break;
           case 15: 
             { return token("PUNTO_COMA", yytext());
             } 
             // fall through
-          case 61: break;
+          case 65: break;
           case 16: 
             { return token("DOSPUNTOS", yytext());
             } 
             // fall through
-          case 62: break;
+          case 66: break;
           case 17: 
             { return token("LLAVEABRE", yytext());
             } 
             // fall through
-          case 63: break;
+          case 67: break;
           case 18: 
             { return token("LLAVECIERRA", yytext());
             } 
             // fall through
-          case 64: break;
+          case 68: break;
           case 19: 
             { string.setLength(0); yybegin(STRING);
             } 
             // fall through
-          case 65: break;
+          case 69: break;
           case 20: 
             { string.append( yytext() );
             } 
             // fall through
-          case 66: break;
+          case 70: break;
           case 21: 
             { yybegin(YYINITIAL);
-                                       System.out.println("Soy un string");
-                                       return token("STRING", 
+                                       MiToken token = new MiToken("STRING", 
                                        string.toString());
+                                  try {
+                                    entrada = "STRING ".getBytes();
+                                    Files.write(Paths.get(FILEPATH), entrada, StandardOpenOption.APPEND);
+                                    entrada = (string.toString() + "\n").getBytes();
+                                    Files.write(Paths.get(FILEPATH), entrada, StandardOpenOption.APPEND);
+                                    tablaDeSimbolos.add(token);
+
+                                  } catch(Exception e) {
+                                        e.printStackTrace();
+                                        System.out.println("Error grabando en el archivo token ENTERO");
+                                  }
+
+                                  return token;
             } 
             // fall through
-          case 67: break;
+          case 71: break;
           case 22: 
             { string.append('\\');
             } 
             // fall through
-          case 68: break;
+          case 72: break;
           case 23: 
             { System.out.println("Reconoci un comentario");
             } 
             // fall through
-          case 69: break;
-          case 24: 
-            { return token("AND", yytext());
-            } 
-            // fall through
-          case 70: break;
-          case 25: 
-            { return token("OR", yytext());
-            } 
-            // fall through
-          case 71: break;
-          case 26: 
-            { return token("IS", yytext());
-            } 
-            // fall through
-          case 72: break;
-          case 27: 
-            { return token("IF", yytext());
-            } 
-            // fall through
           case 73: break;
-          case 28: 
-            { return token("DO", yytext());
+          case 24: 
+            { return token("EQUAL", yytext());
             } 
             // fall through
           case 74: break;
-          case 29: 
-            { string.append('\n');
+          case 25: 
+            { return token("AND", yytext());
             } 
             // fall through
           case 75: break;
-          case 30: 
-            { string.append('\t');
+          case 26: 
+            { return token("OR", yytext());
             } 
             // fall through
           case 76: break;
-          case 31: 
-            { string.append('\r');
+          case 27: 
+            { return token("DIFF", yytext());
             } 
             // fall through
           case 77: break;
-          case 32: 
-            { string.append('\"');
+          case 28: 
+            { return token("MENOREQUAL", yytext());
             } 
             // fall through
           case 78: break;
-          case 33: 
-            { return token("TIPO", yytext());
+          case 29: 
+            { return token("MAYOREQUAL", yytext());
             } 
             // fall through
           case 79: break;
-          case 34: 
-            { return token("TRUE", yytext());
+          case 30: 
+            { return token("IS", yytext());
             } 
             // fall through
           case 80: break;
-          case 35: 
-            { return token("FALSE", yytext());
+          case 31: 
+            { return token("IF", yytext());
             } 
             // fall through
           case 81: break;
-          case 36: 
-            { return token("MAIN", yytext());
+          case 32: 
+            { return token("DO", yytext());
             } 
             // fall through
           case 82: break;
-          case 37: 
-            { return token("THEN", yytext());
+          case 33: 
+            { string.append('\n');
             } 
             // fall through
           case 83: break;
-          case 38: 
-            { return token("VARS", yytext());
+          case 34: 
+            { string.append('\t');
             } 
             // fall through
           case 84: break;
-          case 39: 
-            { return token("ELSE", yytext());
+          case 35: 
+            { string.append('\r');
             } 
             // fall through
           case 85: break;
-          case 40: 
-            { return token("CONST", yytext());
+          case 36: 
+            { string.append('\"');
             } 
             // fall through
           case 86: break;
-          case 41: 
-            { return token("UNTIL", yytext());
+          case 37: 
+            { return token("TIPO", yytext());
             } 
             // fall through
           case 87: break;
-          case 42: 
-            { return token("WHILE", yytext());
+          case 38: 
+            { return token("TRUE", yytext());
             } 
             // fall through
           case 88: break;
-          case 43: 
-            { return token("RESULT", yytext());
+          case 39: 
+            { return token("FALSE", yytext());
             } 
             // fall through
           case 89: break;
-          case 44: 
-            { return token("REPEAT", yytext());
+          case 40: 
+            { return token("MAIN", yytext());
             } 
             // fall through
           case 90: break;
-          case 45: 
-            { return token("BETWEEN", yytext());
+          case 41: 
+            { return token("THEN", yytext());
             } 
             // fall through
           case 91: break;
-          case 46: 
-            { return token("FUNCTION", yytext());
+          case 42: 
+            { return token("VARS", yytext());
             } 
             // fall through
           case 92: break;
+          case 43: 
+            { return token("ELSE", yytext());
+            } 
+            // fall through
+          case 93: break;
+          case 44: 
+            { return token("CONST", yytext());
+            } 
+            // fall through
+          case 94: break;
+          case 45: 
+            { return token("UNTIL", yytext());
+            } 
+            // fall through
+          case 95: break;
+          case 46: 
+            { return token("WHILE", yytext());
+            } 
+            // fall through
+          case 96: break;
+          case 47: 
+            { return token("RESULT", yytext());
+            } 
+            // fall through
+          case 97: break;
+          case 48: 
+            { return token("REPEAT", yytext());
+            } 
+            // fall through
+          case 98: break;
+          case 49: 
+            { return token("BETWEEN", yytext());
+            } 
+            // fall through
+          case 99: break;
+          case 50: 
+            { return token("FUNCTION", yytext());
+            } 
+            // fall through
+          case 100: break;
           default:
             zzScanError(ZZ_NO_MATCH);
         }

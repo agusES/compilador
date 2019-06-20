@@ -21,10 +21,7 @@ function primero(h:int):int is
     hola= "hola mundo";
     aux = 0;
 
-// hola mundo comentario 
-/* asdasdasd
-result=2
-asdasdasdas */
+/* hola mundo comentario */
     result=2
 }
 if(a>1)then

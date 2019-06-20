@@ -13,6 +13,10 @@ package ejemplo.jflex;
 import java.util.ArrayList;
 import java_cup.runtime.*;
 import java_cup.sym;
+import java.nio.file.*;
+import java.io.File;
+import java.io.FileOutputStream; 
+import java.io.OutputStream; 
 
 /****************************************************************************
  * Las siguientes directivas afectan el comportamiento del analizador léxico:
@@ -45,7 +49,10 @@ import java_cup.sym;
     * como parte de la definición de la clase del analizador léxico.
     * Típicamente serán variables de instancia o nuevos métodos de la clase.
     *************************************************************************/
-    StringBuffer string = new StringBuffer();
+    public byte[] entrada;
+    public static String FILEPATH = "C:\\Users\\flynn\\ts.txt"; 
+    public static File file = new File(FILEPATH);     
+    public StringBuffer string = new StringBuffer();
     public ArrayList<MiToken> tablaDeSimbolos = new ArrayList<>();
  
     private MiToken token(String nombre) {
@@ -55,7 +62,20 @@ import java_cup.sym;
     private MiToken token(String nombre, Object valor) {
         return new MiToken(nombre, this.yyline, this.yycolumn, valor);
     }
+   
 %}
+
+%init{
+    try {
+        if (file.createNewFile()) {
+            System.out.println("Archivo creado");
+        }
+    } catch(Exception e) {
+            e.printStackTrace();
+            System.out.println("Error al crear el archivo");
+    }
+
+%init}
 %eof{
     System.out.println(tablaDeSimbolos.toString());
 %eof}
@@ -82,16 +102,20 @@ dec_entero =        0 |{num_sin_ceros}{digito}*
 
 dec_id =            ([:letter:]|_)\w*
 
-comparador =        <|>|==|<>
 
 %state STRING
 %%
    
 <YYINITIAL> {
-    ""                          { return token("NADA", yytext()); }
     "="                         { return token("IGUAL", yytext()); }
     "&&"                        { return token("AND", yytext()); }
     "||"                        { return token("OR", yytext()); }
+    "=="                        { return token("EQUAL", yytext()); }
+    "!="                        { return token("DIFF", yytext()); }
+    "<="                        { return token("MENOREQUAL", yytext()); }
+    ">="                        { return token("MAYOREQUAL", yytext()); }
+    "<"                         { return token("MENOR", yytext()); }
+    ">"                         { return token("MAYOR", yytext()); }
     "("                         { return token("PARENABRE", yytext()); }
     ")"                         { return token("PARENCIERRA", yytext()); }
     "*"                         { return token("POR", yytext()); }
@@ -119,13 +143,34 @@ comparador =        <|>|==|<>
     "between"                   { return token("BETWEEN", yytext()); }
     ".T."                       { return token("TRUE", yytext()); }
     ".F."                       { return token("FALSE", yytext()); }
-    {dec_id}                    { MiToken token = new MiToken("ID", yytext()); 
-                                  tablaDeSimbolos.add(token);
+    {dec_id}                    { MiToken token = new MiToken("ID", yytext());
+                                  try {
+                                    entrada = "ID ".getBytes();
+                                    Files.write(Paths.get(FILEPATH), entrada, StandardOpenOption.APPEND);
+                                    entrada = (yytext() + "\n").getBytes();
+                                    Files.write(Paths.get(FILEPATH), entrada, StandardOpenOption.APPEND);
+                                    tablaDeSimbolos.add(token);
+
+                                  } catch(Exception e) {
+                                        e.printStackTrace();
+                                        System.out.println("Error en grabando en el archivo token ID");
+                                  }
+                                  
                                   return token; 
                                 }
-    {comparador}                { return token ("COMPARADOR", yytext()); }
-    {dec_entero}                { MiToken token = new MiToken("ENTERO", yytext()); 
-                                  tablaDeSimbolos.add(token);
+    {dec_entero}                { MiToken token = new MiToken("ENTERO", yytext());
+                                  try {
+                                    entrada = "ENTERO ".getBytes();
+                                    Files.write(Paths.get(FILEPATH), entrada, StandardOpenOption.APPEND);
+                                    entrada = (yytext() + "\n").getBytes();
+                                    Files.write(Paths.get(FILEPATH), entrada, StandardOpenOption.APPEND);
+                                    tablaDeSimbolos.add(token);
+
+                                  } catch(Exception e) {
+                                        e.printStackTrace();
+                                        System.out.println("Error en grabando en el archivo token ENTERO");
+                                  }
+
                                   return token;  
                                 }
     \"                          { string.setLength(0); yybegin(STRING); }
@@ -137,9 +182,22 @@ comparador =        <|>|==|<>
 }
 <STRING> {
       \"                             { yybegin(YYINITIAL);
-                                       System.out.println("Soy un string");
-                                       return token("STRING", 
-                                       string.toString()); }
+                                       MiToken token = new MiToken("STRING", 
+                                       string.toString());
+                                  try {
+                                    entrada = "STRING ".getBytes();
+                                    Files.write(Paths.get(FILEPATH), entrada, StandardOpenOption.APPEND);
+                                    entrada = (string.toString() + "\n").getBytes();
+                                    Files.write(Paths.get(FILEPATH), entrada, StandardOpenOption.APPEND);
+                                    tablaDeSimbolos.add(token);
+
+                                  } catch(Exception e) {
+                                        e.printStackTrace();
+                                        System.out.println("Error grabando en el archivo token ENTERO");
+                                  }
+
+                                  return token; 
+                                        }
       [^\n\r\"\\]+                   { string.append( yytext() ); }
       \\t                            { string.append('\t'); }
       \\n                            { string.append('\n'); }
