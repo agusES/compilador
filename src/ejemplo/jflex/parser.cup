@@ -6,6 +6,11 @@ import java.util.List;
 import java.io.FileReader;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import java.lang.NumberFormatException;
+import java.lang.IllegalArgumentException;
+import java.lang.TypeNotPresentException;
+import java.lang.Throwable;
+import ejemplo.nodos.*;
 
 class MiParser;
 
@@ -24,14 +29,14 @@ parser code
 :};
 
 
-terminal MAIN, CONST, LLAVEABRE, LLAVECIERRA, ID, VARS, TIPO, FUNCTION, RESULT, IF, THEN, ELSE, WHILE, DO , UNTIL, REPEAT, MAS, MENOS, POR, DIVIDIDO;
-terminal MAYOR, MENOR, EQUAL, DIFF, MAYOREQUAL, MENOREQUAL, PUNTO_COMA, TRUE, FALSE, AND, OR, BETWEEN, STRING, PARENABRE, PARENCIERRA, IGUAL, DOSPUNTOS, IS, ENTERO;
-nonterminal programa, const, constantes, constante, vars, func, sentencias, variables, variable, termino, factor, comparador, termbool;
-nonterminal expbool, between, bloque, ids, parametros, parametro, sentencia, return, asig, asigs, if, while, until, condicion, exp;
+terminal MAIN, CONST, LLAVEABRE, LLAVECIERRA, ID, VARS, INT, FLOAT, BOOLEAN, IF, THEN, ELSE, WHILE, DO , UNTIL, REPEAT, MAS, MENOS, POR, DIVIDIDO, SHOW;
+terminal MAYOR, MENOR, EQUAL, DIFF, MAYOREQUAL, MENOREQUAL, PUNTO_COMA, TRUE, FALSE, AND, OR, BETWEEN, STRING, PARENABRE, PARENCIERRA, IGUAL, DOSPUNTOS, ENTERO, FLOTANTE;
+nonterminal programa, const, constantes, constante, vars, sentencias, variables, variable, termino, factor, comparador, termbool;
+nonterminal expbool, between, bloque, ids, sentencia, asig, asigs, if, while, until, condicion, exp, tipo, show;
 
 start with programa;
 
-programa ::= MAIN const vars func sentencias
+programa ::= MAIN const vars sentencias
             {:  
                 System.out.println("Soy un Programa");
             :};
@@ -41,16 +46,6 @@ bloque ::= LLAVEABRE sentencias LLAVECIERRA {: System.out.println("Soy un bloque
 
 sentencias ::= sentencias sentencia PUNTO_COMA {: System.out.println("Soy muchas sentencias"); :} 
 | sentencia PUNTO_COMA {:System.out.println("Soy una sentencia");:};
-
-func ::= FUNCTION ID PARENABRE parametros PARENCIERRA DOSPUNTOS TIPO IS LLAVEABRE const vars sentencias return LLAVECIERRA{:
-                System.out.println("SOY UNA FUNCION");
-
-:};
-
-return ::= RESULT IGUAL exp{:
-                System.out.println("SOY EL RETURN");
-
-:};
 
 const ::= CONST LLAVEABRE constantes LLAVECIERRA{:  
                 System.out.println("SECTOR CONSTANTES");
@@ -67,9 +62,31 @@ constantes ::= constante {:
                 System.out.println("VARIAS CONSTANTES");
 :};
 
-constante ::= ID DOSPUNTOS TIPO IGUAL exp {:
+constante ::= ID DOSPUNTOS tipo:t IGUAL exp:e PUNTO_COMA{:
                 System.out.println("CONSTANTE");
-
+                switch(t.toString()){
+                    case "int":
+                        if (!(Integer.class.isInstance(e))) {
+                            System.out.println("ERROR EN TIPO ENTERO");
+                            throw new IllegalArgumentException ("El argumento debe ser un número entero");
+                        }
+                        break;
+                    case "float":
+                        if (!(Float.class.isInstance(e))) {
+                            System.out.println("ERROR EN TIPO FLOTANTE");
+                            throw new IllegalArgumentException ("El argumento debe ser un número flotante");
+                        }
+                        break;
+                    case "boolean":
+                        if (e != ".T." && e != ".F.") {
+                            System.out.println("ERROR EN TIPO BOOLEANO");
+                            throw new IllegalArgumentException ("El argumento debe ser una expresion booleana");
+                        }
+                        break;
+                    default:
+                        System.out.println("NO ES UN TIPO");
+                        break; 
+                }
 :};
 
 vars ::= VARS LLAVEABRE variables LLAVECIERRA
@@ -78,6 +95,20 @@ vars ::= VARS LLAVEABRE variables LLAVECIERRA
             :}|{:
                 System.out.println("NO HAY VARIABLES");
 :};
+
+tipo ::= INT:i {:
+            System.out.println("Soy un tipo ENTERO");
+            RESULT = i;
+        :} 
+        | FLOAT:f {:
+            System.out.println("Soy un tipo FLOAT");
+            RESULT = f;
+        :}
+        | BOOLEAN:b {:
+            System.out.println("Soy un tipo BOOLEAN");
+            RESULT = b;
+        :}
+        ;
 
 variables ::= variable {:
                 System.out.println("UNA VARIABLE");
@@ -88,7 +119,7 @@ variables ::= variable {:
 
 :};
 
-variable ::= ids DOSPUNTOS TIPO {:
+variable ::= ids DOSPUNTOS tipo PUNTO_COMA{:
                 System.out.println("VARIABLE");
 
 :};
@@ -100,21 +131,12 @@ ids ::= ID {:
 
 :};
 
-parametros ::= parametro {:
-        System.out.println("UN PARAMETRO");
-
-:} | parametros parametro {:
-        System.out.println("VARIOS PARAMETROS");
-
-:};
-
-parametro ::= ID DOSPUNTOS TIPO {:System.out.println("Soy un parametro"); :};
-
 sentencia ::= asig {: System.out.println("Soy una asignacion simple en una sentencia");:} 
             | asigs {: System.out.println("Soy una asignacion compleja en una sentencia");:} 
-            | if:i {: System.out.println(i);:} 
+            | if {: System.out.println("Sou un if en una sentencia");:} 
             | while {: System.out.println("Soy un while en una sentencia");:} 
-            | until {: System.out.println("Soy un until en una sentencia");:};
+            | until {: System.out.println("Soy un until en una sentencia");:}
+            | show {: System.out.println("Soy un show en una sentencia");:};
 
 asig ::= ID IGUAL exp {:
     System.out.println("soy una asignacion comun");
@@ -137,6 +159,8 @@ while ::= WHILE condicion DO bloque {:System.out.println("Soy un while");:};
 
 until ::= UNTIL condicion REPEAT bloque {:System.out.println("Soy un until");:};
 
+show ::= SHOW PARENABRE STRING:s PARENCIERRA {:System.out.println("Soy un show con string: " + s.toString());:};
+
 between ::= exp:e1 BETWEEN exp:e2 AND exp:e3 {:System.out.println( e1 + " between " + e2 + " AND " + e3);:};
 
 condicion ::= PARENABRE exp:e comparador:c exp:e2 PARENCIERRA {: RESULT= "(" + e + c+ e2+")";:}
@@ -151,20 +175,21 @@ comparador ::= MAYOR:ma {: RESULT= ma;:}
 | MENOREQUAL:me {: System.out.println("Soy un menor o igual");RESULT= me; :};
 
 
-exp ::= exp MAS termino {:
+exp ::= exp:e MAS termino:t {:
                 System.out.println("expresion::=expresion+factor;");
+                RESULT = new Suma(e,t);
             :}
             |
             exp MENOS termino {:
                 System.out.println("expresion::=expresion-factor;");
+                RESULT = new Resta(e,t);
             :}
              |
              termino:t {:
                 System.out.println("expresion::=termino;");
                 RESULT= t;
-            :} |
-             STRING:s {:System.out.println("expresion::=string: " + s + ";");
-                RESULT= s;:}; 
+            :};
+
 termbool ::= TRUE:t {:
                 System.out.println("Soy un TRUE");
                 RESULT= t;
@@ -188,25 +213,41 @@ expbool ::=  expbool:e1 AND:a termbool:e2 {: System.out.println("Soy un AND");RE
 
 termino ::= termino:t POR factor:f {:
                 System.out.println("termino::=factor*termino;");
-                RESULT= t +" * "+ f;
+                RESULT = new Multiplicacion(t,f);
             :}
             |
-            termino:t1 DIVIDIDO factor:f1 {:
+            termino:t DIVIDIDO factor:f {:
                 System.out.println("termino::=factor/termino;");
-                RESULT= t1+ " / " + f1;
+                RESULT = new Division(t,f);
             :}
             |
             factor:f {:
                  RESULT= f;
             :}; 
 factor ::= ENTERO:e {:
-                RESULT= e;
+            Integer entero = null;
+            try{
+                entero = Integer.valueOf(e.toString());
+            }catch(NumberFormatException  ex){
+                System.out.println("El valor no corresponde a un número entero");
+            }    
+            RESULT= entero;
              :}
+             | FLOTANTE:f {:
+             Float flotante = null;
+             try{
+                flotante = Float.valueOf(f.toString());
+            }catch(NumberFormatException  ex){
+                System.out.println("El valor no corresponde a un número flotante");
+            }    
+            RESULT= flotante;
+             :}
+
              |
              ID:identificador {:
-                RESULT= identificador;
+                RESULT = identificador;
              :}
             |
-            PARENABRE:pa exp:e PARENCIERRA:pc {:
-                 RESULT= "("+e+")";
+            PARENABRE exp:e PARENCIERRA {:
+                 RESULT = e;
             :};

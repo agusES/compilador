@@ -50,7 +50,7 @@ import java.io.OutputStream;
     * Típicamente serán variables de instancia o nuevos métodos de la clase.
     *************************************************************************/
     public byte[] entrada;
-    public static String FILEPATH = "C:\\Users\\flynn\\ts.txt"; 
+    public static String FILEPATH = "C:\\Users\\Carlos\\ts.txt"; 
     public static File file = new File(FILEPATH);     
     public StringBuffer string = new StringBuffer();
     public ArrayList<MiToken> tablaDeSimbolos = new ArrayList<>();
@@ -100,6 +100,8 @@ digito =            [0-9]
 
 dec_entero =        0 |{num_sin_ceros}{digito}*
 
+flotante =  [+-]?([1-9][0-9]*[.])?[0-9]+
+
 dec_id =            ([:letter:]|_)\w*
 
 
@@ -129,9 +131,7 @@ dec_id =            ([:letter:]|_)\w*
     "main"                      { return token("MAIN", yytext()); }
     "const"                     { return token("CONST", yytext()); }
     "vars"                      { return token("VARS", yytext()); }
-    "function"                  { return token("FUNCTION", yytext()); }
     "is"                        { return token("IS", yytext()); }
-    "result"                    { return token("RESULT", yytext()); }
     "if"                        { return token("IF", yytext()); }
     "then"                      { return token("THEN", yytext()); }
     "else"                      { return token("ELSE", yytext()); }
@@ -139,8 +139,11 @@ dec_id =            ([:letter:]|_)\w*
     "do"                        { return token("DO", yytext()); }
     "until"                     { return token("UNTIL", yytext()); }
     "repeat"                    { return token("REPEAT", yytext()); }
-    "int"                       { return token("TIPO", yytext()); }
+    "int"                       { return token("INT", yytext()); }
+    "float"                     { return token("FLOAT", yytext()); }
+    "boolean"                   { return token("BOOLEAN", yytext()); }
     "between"                   { return token("BETWEEN", yytext()); }
+    "show"                      { return token("SHOW", yytext()); }
     ".T."                       { return token("TRUE", yytext()); }
     ".F."                       { return token("FALSE", yytext()); }
     {dec_id}                    { MiToken token = new MiToken("ID", yytext());
@@ -173,6 +176,21 @@ dec_id =            ([:letter:]|_)\w*
 
                                   return token;  
                                 }
+    {flotante}                  { MiToken token = new MiToken("FLOTANTE", yytext());
+                                  try {
+                                    entrada = "FLOTANTE ".getBytes();
+                                    Files.write(Paths.get(FILEPATH), entrada, StandardOpenOption.APPEND);
+                                    entrada = (yytext() + "\n").getBytes();
+                                    Files.write(Paths.get(FILEPATH), entrada, StandardOpenOption.APPEND);
+                                    tablaDeSimbolos.add(token);
+
+                                  } catch(Exception e) {
+                                        e.printStackTrace();
+                                        System.out.println("Error en grabando en el archivo token FLOTANTE");
+                                  }
+
+                                  return token;  
+                                }
     \"                          { string.setLength(0); yybegin(STRING); }
     /* comments */
     {Comment}                   { System.out.println("Reconoci un comentario"); }
@@ -196,8 +214,8 @@ dec_id =            ([:letter:]|_)\w*
                                         System.out.println("Error grabando en el archivo token ENTERO");
                                   }
 
-                                  return token; 
-                                        }
+                                  return token;
+                                }
       [^\n\r\"\\]+                   { string.append( yytext() ); }
       \\t                            { string.append('\t'); }
       \\n                            { string.append('\n'); }
