@@ -34,7 +34,7 @@ terminal MAYOR, MENOR, EQUAL, DIFF, MAYOREQUAL, MENOREQUAL, PUNTO_COMA, TRUE, FA
 nonterminal programa, const, constantes, constante, vars, sentencias, variables, variable, termino, factor, comparador, termbool;
 nonterminal expbool, between, bloque, ids, sentencia, asig, asigs, if, while, until, condicion, exp, tipo, show;
 
-start with programa;
+start with asig;
 
 programa ::= MAIN const vars sentencias
             {:  
@@ -124,8 +124,9 @@ variable ::= ids DOSPUNTOS tipo PUNTO_COMA{:
 
 :};
 
-ids ::= ID {:
+ids ::= ID:id {:
         System.out.println("UN ID");
+        RESULT = new Identificador("id");
 :} | ids ID {:
         System.out.println("VARIOS IDS");
 
@@ -138,8 +139,11 @@ sentencia ::= asig {: System.out.println("Soy una asignacion simple en una sente
             | until {: System.out.println("Soy un until en una sentencia");:}
             | show {: System.out.println("Soy un show en una sentencia");:};
 
-asig ::= ID IGUAL exp {:
+asig ::= ID:i IGUAL exp:e {:
     System.out.println("soy una asignacion comun");
+    Identificador id = new Identificador(i.toString());
+    Expresion ex = (Expresion) e;
+    RESULT = new Asignacion(id, ex);
 :}| ID IGUAL expbool{:System.out.println("soy una asignacion booleana"); :};
 
 asigs ::= ID IGUAL asig {:
@@ -176,18 +180,24 @@ comparador ::= MAYOR:ma {: RESULT= ma;:}
 
 
 exp ::= exp:e MAS termino:t {:
+                Expresion exp = (Expresion) e;
+                Expresion ter = (Expresion) t;
+                Expresion nodo = new Suma(exp,ter);
                 System.out.println("expresion::=expresion+factor;");
-                RESULT = new Suma(e,t);
+                RESULT = nodo;
             :}
             |
-            exp MENOS termino {:
+            exp:e MENOS termino:t {:
+                Expresion exp = (Expresion) e;
+                Expresion ter = (Expresion) t;
+                Expresion nodo = new Resta(exp,ter);
                 System.out.println("expresion::=expresion-factor;");
-                RESULT = new Resta(e,t);
+                RESULT = nodo;
             :}
              |
              termino:t {:
                 System.out.println("expresion::=termino;");
-                RESULT= t;
+                RESULT= (Expresion) t;
             :};
 
 termbool ::= TRUE:t {:
@@ -212,17 +222,23 @@ expbool ::=  expbool:e1 AND:a termbool:e2 {: System.out.println("Soy un AND");RE
                 :};
 
 termino ::= termino:t POR factor:f {:
+                Expresion ter = (Expresion) t;
+                Expresion fac = (Expresion) f;
+                Expresion nodo = new Multiplicacion(ter,fac); 
                 System.out.println("termino::=factor*termino;");
-                RESULT = new Multiplicacion(t,f);
+                RESULT = nodo;
             :}
             |
             termino:t DIVIDIDO factor:f {:
+                Expresion ter = (Expresion) t;
+                Expresion fac = (Expresion) f;
+                Expresion nodo = new Division(ter,fac); 
                 System.out.println("termino::=factor/termino;");
-                RESULT = new Division(t,f);
+                RESULT = nodo;
             :}
             |
             factor:f {:
-                 RESULT= f;
+                 RESULT= (Expresion) f;
             :}; 
 factor ::= ENTERO:e {:
             Integer entero = null;
@@ -231,7 +247,7 @@ factor ::= ENTERO:e {:
             }catch(NumberFormatException  ex){
                 System.out.println("El valor no corresponde a un número entero");
             }    
-            RESULT= entero;
+            RESULT= new Constante(entero);
              :}
              | FLOTANTE:f {:
              Float flotante = null;
@@ -240,14 +256,13 @@ factor ::= ENTERO:e {:
             }catch(NumberFormatException  ex){
                 System.out.println("El valor no corresponde a un número flotante");
             }    
-            RESULT= flotante;
+            RESULT= new Constante(flotante);
              :}
-
              |
              ID:identificador {:
-                RESULT = identificador;
+                RESULT = new Identificador(identificador.toString());
              :}
             |
             PARENABRE exp:e PARENCIERRA {:
-                 RESULT = e;
+                RESULT = (Expresion) e;
             :};

@@ -512,7 +512,7 @@ public class MiLexico implements java_cup.runtime.Scanner {
     * Típicamente serán variables de instancia o nuevos métodos de la clase.
     *************************************************************************/
     public byte[] entrada;
-    public static String FILEPATH = "C:\\Users\\Carlos\\ts.txt"; 
+    public static String FILEPATH = "C:\\Users\\flynn\\ts.txt"; 
     public static File file = new File(FILEPATH);     
     public StringBuffer string = new StringBuffer();
     public ArrayList<MiToken> tablaDeSimbolos = new ArrayList<>();

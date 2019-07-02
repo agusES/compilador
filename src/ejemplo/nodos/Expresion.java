@@ -12,14 +12,4 @@ package ejemplo.nodos;
 public abstract class Expresion extends Nodo {
     public Expresion() {
     }
-    
-    public String graficar() {
-        // Acá se dispara la invocación a los métodos graficar() de los nodos.
-        // Como la Expresion no tiene padre, se inicia pasando null.  
-        StringBuilder resultado = new StringBuilder();
-        resultado.append("graph G {");
-        resultado.append(this.graficar(null));
-        resultado.append("}");
-        return resultado.toString();
-    }
 }

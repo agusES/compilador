@@ -1,14 +1,1 @@
-main
-const {
-    id:int=2;
-}
-vars {
-    hola:int;
-}
-if(a>1)then {
-    hola=1;
-} else {
-    hola=2;
-};
-chau = 1 between 0 && 2;
-show("Hola Mundo!");
+a= 3 - 2
