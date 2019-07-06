@@ -1,2 +1,14 @@
-graph G {nodo_1173230247 [label="Asignacion"]
+graph G {nodo_1173230247 [label="If Then"]
+nodo_856419764 [label=">"]
+nodo_1173230247 -- nodo_856419764
+nodo_621009875 [label="Const 1"]
+nodo_856419764 -- nodo_621009875
+nodo_1265094477 [label="Const 2"]
+nodo_856419764 -- nodo_1265094477
+nodo_2125039532 [label="="]
+nodo_1173230247 -- nodo_2125039532
+nodo_312714112 [label="ID id"]
+nodo_2125039532 -- nodo_312714112
+nodo_692404036 [label="Const 3"]
+nodo_2125039532 -- nodo_692404036
 }

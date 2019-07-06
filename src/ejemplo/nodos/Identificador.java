@@ -9,7 +9,7 @@ package ejemplo.nodos;
  *
  * @author Flynn
  */
-public class Identificador extends Expresion {
+public class Identificador extends Nodo {
     private String valor;
     public Identificador(String id) {
         this.valor = id;

@@ -10,7 +10,7 @@ package ejemplo.nodos;
  * @author Carlos
  */
 public class And extends OperacionBinariaBooleana {
-    public And(ExpresionBooleana izquierda, ExpresionBooleana derecha) {
+    public And(Nodo izquierda, Nodo derecha) {
         super(izquierda, derecha);
     }
 

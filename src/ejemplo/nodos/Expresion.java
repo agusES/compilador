@@ -7,9 +7,11 @@ package ejemplo.nodos;
 
 /**
  *
- * @author Carlos
+ * @author Agustin
  */
 public abstract class Expresion extends Nodo {
     public Expresion() {
     }
+    
+    protected abstract String graficar(String idPadre);
 }

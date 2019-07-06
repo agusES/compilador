@@ -10,7 +10,7 @@ package ejemplo.nodos;
  * @author Carlos
  */
 public class Multiplicacion extends OperacionBinaria {
-      public Multiplicacion(Expresion izquierda, Expresion derecha) {
+      public Multiplicacion(Nodo izquierda, Nodo derecha) {
         super(izquierda, derecha);
     }
 

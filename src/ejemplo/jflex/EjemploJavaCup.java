@@ -5,8 +5,7 @@
  */
 package ejemplo.jflex;
 
-import ejemplo.nodos.Asignacion;
-import ejemplo.nodos.Expresion;
+import ejemplo.nodos.*;
 import java.io.FileReader;
 import java.io.FileWriter;
 import java.io.PrintWriter;
@@ -30,7 +29,7 @@ public class EjemploJavaCup {
             System.out.println("Análisis sintáctico iniciado:");
             MiLexico lexer = new MiLexico(new FileReader(path));
             MiParser parser = new MiParser(lexer);
-            final Asignacion asignacion = (Asignacion) parser.parse().value;
+            final Sentencia asignacion = (Sentencia) parser.parse().value;
              try (PrintWriter pw = new PrintWriter(new FileWriter("arbol.dot"))) {
                 pw.println(asignacion.graficar());
             }

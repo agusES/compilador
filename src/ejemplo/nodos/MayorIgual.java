@@ -11,7 +11,7 @@ package ejemplo.nodos;
  */
 public class MayorIgual extends OperacionBinariaBooleana{
     
-    public MayorIgual(ExpresionBooleana izquierda, ExpresionBooleana derecha) {
+    public MayorIgual(Nodo izquierda, Nodo derecha) {
         super(izquierda, derecha);
     }
 

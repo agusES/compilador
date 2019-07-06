@@ -10,7 +10,7 @@ package ejemplo.nodos;
  * @author Carlos
  */
 public class Igual extends OperacionBinariaBooleana{
-    public Igual(ExpresionBooleana izquierda, ExpresionBooleana derecha) {
+    public Igual(Nodo izquierda, Nodo derecha) {
         super(izquierda, derecha);
     }
 

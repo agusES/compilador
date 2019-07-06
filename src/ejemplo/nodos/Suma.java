@@ -10,7 +10,7 @@ package ejemplo.nodos;
  * @author Carlos
  */
 public class Suma extends OperacionBinaria{
-    public Suma(Expresion izquierda, Expresion derecha) {
+    public Suma(Nodo izquierda, Nodo derecha) {
         super(izquierda, derecha);
     }
 

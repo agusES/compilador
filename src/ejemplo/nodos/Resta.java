@@ -10,7 +10,7 @@ package ejemplo.nodos;
  * @author Carlos
  */
 public class Resta extends OperacionBinaria{
-    public Resta(Expresion izquierda, Expresion derecha) {
+    public Resta(Nodo izquierda, Nodo derecha) {
         super(izquierda, derecha);
     }
 

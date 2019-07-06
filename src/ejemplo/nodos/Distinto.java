@@ -10,7 +10,7 @@ package ejemplo.nodos;
  * @author Carlos
  */
 public class Distinto extends OperacionBinariaBooleana {
-    public Distinto(ExpresionBooleana izquierda, ExpresionBooleana derecha) {
+    public Distinto(Nodo izquierda, Nodo derecha) {
         super(izquierda, derecha);
     }
 

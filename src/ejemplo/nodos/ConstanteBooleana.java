@@ -9,7 +9,7 @@ package ejemplo.nodos;
  *
  * @author Carlos
  */
-public class ConstanteBooleana extends ExpresionBooleana {
+public class ConstanteBooleana extends Nodo {
     private final boolean valor;
 
     public ConstanteBooleana(boolean valor) {

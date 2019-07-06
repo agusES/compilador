@@ -10,7 +10,7 @@ package ejemplo.nodos;
  * @author Carlos
  */
 public class Between extends OperacionTernariaBooleana {
-    public Between(ExpresionBooleana valor, ExpresionBooleana inferior, ExpresionBooleana superior) {
+    public Between(Nodo valor, Nodo inferior, Nodo superior) {
         super(valor, inferior, superior);
     }
 

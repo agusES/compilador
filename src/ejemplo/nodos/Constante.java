@@ -9,7 +9,7 @@ package ejemplo.nodos;
  *
  * @author Carlos
  */
-public class Constante extends Expresion {
+public class Constante extends Nodo {
     private final Object valor;
 
     public Constante(Object valor) {

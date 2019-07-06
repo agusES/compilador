@@ -9,12 +9,12 @@ package ejemplo.nodos;
  *
  * @author Carlos
  */
-public abstract class OperacionBinariaBooleana extends ExpresionBooleana {
+public abstract class OperacionBinariaBooleana extends Nodo {
     
-    private final ExpresionBooleana izquierda;
-    private final ExpresionBooleana derecha;
+    private final Nodo izquierda;
+    private final Nodo derecha;
 
-    public OperacionBinariaBooleana(ExpresionBooleana izquierda, ExpresionBooleana derecha) {
+    public OperacionBinariaBooleana(Nodo izquierda, Nodo derecha) {
         this.izquierda = izquierda;
         this.derecha = derecha;
     }

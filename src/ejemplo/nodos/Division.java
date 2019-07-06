@@ -10,7 +10,7 @@ package ejemplo.nodos;
  * @author Carlos
  */
 public class Division extends OperacionBinaria {
-    public Division(Expresion izquierda, Expresion derecha) {
+    public Division(Nodo izquierda, Nodo derecha) {
         super(izquierda, derecha);
     }
 

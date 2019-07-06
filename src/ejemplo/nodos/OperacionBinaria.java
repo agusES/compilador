@@ -9,12 +9,12 @@ package ejemplo.nodos;
  *
  * @author Carlos
  */
-public abstract class OperacionBinaria extends Expresion {
+public abstract class OperacionBinaria extends Nodo {
 
-    private final Expresion izquierda;
-    private final Expresion derecha;
+    private final Nodo izquierda;
+    private final Nodo derecha;
 
-    public OperacionBinaria(Expresion izquierda, Expresion derecha) {
+    public OperacionBinaria(Nodo izquierda, Nodo derecha) {
         this.izquierda = izquierda;
         this.derecha = derecha;
     }

@@ -9,12 +9,11 @@ package ejemplo.nodos;
  *
  * @author Flynn
  */
-public abstract class Asignacion extends Nodo {
-    
-    public Asignacion() {
+public abstract class Sentencia extends Nodo{
+    private Nodo sentencia;
+    public Sentencia() {
         
     }
-    
     public String graficar() {
         // Acá se dispara la invocación a los métodos graficar() de los nodos.
         // Como la Expresion no tiene padre, se inicia pasando null.  
@@ -24,4 +23,5 @@ public abstract class Asignacion extends Nodo {
         resultado.append("}");
         return resultado.toString();
     }
+    
 }

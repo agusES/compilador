@@ -10,7 +10,7 @@ package ejemplo.nodos;
  * @author Carlos
  */
 public class MenorIgual extends OperacionBinariaBooleana {
-     public MenorIgual(ExpresionBooleana izquierda, ExpresionBooleana derecha) {
+     public MenorIgual(Nodo izquierda, Nodo derecha) {
         super(izquierda, derecha);
     }
 

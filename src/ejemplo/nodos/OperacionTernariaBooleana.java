@@ -9,13 +9,13 @@ package ejemplo.nodos;
  *
  * @author Carlos
  */
-public abstract class OperacionTernariaBooleana extends ExpresionBooleana {
-    private final ExpresionBooleana valor;
-    private final ExpresionBooleana inferior;
-    private final ExpresionBooleana superior;
+public abstract class OperacionTernariaBooleana extends Nodo {
+    private final Nodo valor;
+    private final Nodo inferior;
+    private final Nodo superior;
 
 
-    public OperacionTernariaBooleana(ExpresionBooleana valor, ExpresionBooleana inferior, ExpresionBooleana superior) {
+    public OperacionTernariaBooleana(Nodo valor, Nodo inferior, Nodo superior) {
         this.valor = valor;
         this.inferior = inferior;
         this.superior = superior;

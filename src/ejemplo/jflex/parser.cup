@@ -34,18 +34,20 @@ terminal MAYOR, MENOR, EQUAL, DIFF, MAYOREQUAL, MENOREQUAL, PUNTO_COMA, TRUE, FA
 nonterminal programa, const, constantes, constante, vars, sentencias, variables, variable, termino, factor, comparador, termbool;
 nonterminal expbool, between, bloque, ids, sentencia, asig, asigs, if, while, until, condicion, exp, tipo, show;
 
-start with asig;
+start with sentencia;
 
 programa ::= MAIN const vars sentencias
             {:  
                 System.out.println("Soy un Programa");
             :};
 
-bloque ::= LLAVEABRE sentencias LLAVECIERRA {: System.out.println("Soy un bloque"); RESULT="bloque";:};
+bloque ::= LLAVEABRE sentencias:s LLAVECIERRA {: System.out.println("Soy un bloque"); RESULT=(Nodo)s;:};
 
 
 sentencias ::= sentencias sentencia PUNTO_COMA {: System.out.println("Soy muchas sentencias"); :} 
-| sentencia PUNTO_COMA {:System.out.println("Soy una sentencia");:};
+| sentencia:s PUNTO_COMA {:System.out.println("Soy una sentencia");
+                            RESULT = (Nodo) s;
+:};
 
 const ::= CONST LLAVEABRE constantes LLAVECIERRA{:  
                 System.out.println("SECTOR CONSTANTES");
@@ -132,9 +134,15 @@ ids ::= ID:id {:
 
 :};
 
-sentencia ::= asig {: System.out.println("Soy una asignacion simple en una sentencia");:} 
-            | asigs {: System.out.println("Soy una asignacion compleja en una sentencia");:} 
-            | if {: System.out.println("Sou un if en una sentencia");:} 
+sentencia ::= asig:a{: System.out.println("Soy una asignacion simple en una sentencia");
+                        RESULT = (Nodo) a;
+:} 
+            | asigs {: System.out.println("Soy una asignacion compleja en una sentencia");
+                        
+:} 
+            | if:i {: System.out.println("Sou un if en una sentencia");
+                    RESULT = (Nodo) i;
+:} 
             | while {: System.out.println("Soy un while en una sentencia");:} 
             | until {: System.out.println("Soy un until en una sentencia");:}
             | show {: System.out.println("Soy un show en una sentencia");:};
@@ -142,8 +150,8 @@ sentencia ::= asig {: System.out.println("Soy una asignacion simple en una sente
 asig ::= ID:i IGUAL exp:e {:
     System.out.println("soy una asignacion comun");
     Identificador id = new Identificador(i.toString());
-    Expresion ex = (Expresion) e;
-    RESULT = new Asignacion(id, ex);
+    Nodo ex = (Nodo) e;
+    RESULT = new AsignacionSimple(id, ex);
 :}| ID IGUAL expbool{:System.out.println("soy una asignacion booleana"); :};
 
 asigs ::= ID IGUAL asig {:
@@ -153,7 +161,9 @@ asigs ::= ID IGUAL asig {:
 :};
 
 if ::= IF condicion:c THEN bloque:b {: 
-                System.out.println("if " + c + " then " + b);
+                Nodo cond = (Nodo) c;
+                Nodo bloque = (Nodo) b;
+                RESULT = new IfThen(cond, bloque);
        :} |
        IF condicion THEN bloque ELSE bloque {:
                 System.out.println("Soy un if con else");
@@ -165,80 +175,109 @@ until ::= UNTIL condicion REPEAT bloque {:System.out.println("Soy un until");:};
 
 show ::= SHOW PARENABRE STRING:s PARENCIERRA {:System.out.println("Soy un show con string: " + s.toString());:};
 
-between ::= exp:e1 BETWEEN exp:e2 AND exp:e3 {:System.out.println( e1 + " between " + e2 + " AND " + e3);:};
+between ::= exp:e1 BETWEEN exp:e2 AND exp:e3 {:
+    Nodo valor = (Nodo) e1;
+    Nodo inf = (Nodo) e2;
+    Nodo sup = (Nodo) e3;
+    RESULT = new Between(valor, inf, sup);
+:};
 
-condicion ::= PARENABRE exp:e comparador:c exp:e2 PARENCIERRA {: RESULT= "(" + e + c+ e2+")";:}
+condicion ::= comparador:c {: RESULT= c;:}
  | PARENABRE expbool:e3 PARENCIERRA {: RESULT= "(" + e3 +")";:};
 
 
-comparador ::= MAYOR:ma {: RESULT= ma;:} 
-| MENOR:me {: System.out.println("Soy un menor");RESULT= me; :}
-| EQUAL:eq {: System.out.println("Soy un igual");RESULT= eq; :}
-| DIFF:dif {: System.out.println("Soy un distinto");RESULT= dif; :}
-| MAYOREQUAL:ge {: System.out.println("Soy un mayor o igual");RESULT= ge; :}
-| MENOREQUAL:me {: System.out.println("Soy un menor o igual");RESULT= me; :};
+comparador ::= PARENABRE exp:e1 MAYOR exp:e2 PARENCIERRA{:
+        Nodo izq = (Nodo) e1;
+        Nodo der = (Nodo) e2;
+        RESULT= new Mayor(izq, der);
+:} | PARENABRE exp:e1 MENOR exp:e2 PARENCIERRA{: 
+       Nodo izq = (Nodo) e1;
+        Nodo der = (Nodo) e2;
+        RESULT= new Menor(izq, der);
+:} | PARENABRE exp:e1 EQUAL exp:e2 PARENCIERRA {: 
+       Nodo izq = (Nodo) e1;
+        Nodo der = (Nodo) e2;
+        RESULT= new Igual(izq, der);
+:} | PARENABRE exp:e1 DIFF exp:e2 PARENCIERRA {:   
+       Nodo izq = (Nodo) e1;
+        Nodo der = (Nodo) e2;
+        RESULT= new Distinto(izq, der);
+:} | PARENABRE exp:e1 MAYOREQUAL exp:e2 PARENCIERRA {: 
+       Nodo izq = (Nodo) e1;
+        Nodo der = (Nodo) e2;
+        RESULT= new MayorIgual(izq, der);
+:} | PARENABRE exp:e1 MENOREQUAL exp:e2 PARENCIERRA {: 
+        Nodo izq = (Nodo) e1;
+        Nodo der = (Nodo) e2;
+        RESULT= new MenorIgual(izq, der); :};
 
 
 exp ::= exp:e MAS termino:t {:
-                Expresion exp = (Expresion) e;
-                Expresion ter = (Expresion) t;
-                Expresion nodo = new Suma(exp,ter);
+                Nodo exp = (Nodo) e;
+                Nodo ter = (Nodo) t;
+                Nodo nodo = new Suma(exp,ter);
                 System.out.println("expresion::=expresion+factor;");
                 RESULT = nodo;
             :}
             |
             exp:e MENOS termino:t {:
-                Expresion exp = (Expresion) e;
-                Expresion ter = (Expresion) t;
-                Expresion nodo = new Resta(exp,ter);
+                Nodo exp = (Nodo) e;
+                Nodo ter = (Nodo) t;
+                Nodo nodo = new Resta(exp,ter);
                 System.out.println("expresion::=expresion-factor;");
                 RESULT = nodo;
             :}
              |
              termino:t {:
                 System.out.println("expresion::=termino;");
-                RESULT= (Expresion) t;
+                RESULT= (Nodo) t;
             :};
 
 termbool ::= TRUE:t {:
-                System.out.println("Soy un TRUE");
-                RESULT= t;
+                
+                RESULT= new ConstanteBooleana(true);
             :}
-            | FALSE:f{: System.out.println("Soy un FALSE");
-                RESULT= f;
+            | FALSE:f{:
+                RESULT= new ConstanteBooleana(false);
             :}
             |
             between:b {:
-                System.out.println("expresion::=between;");
-                RESULT= b;
+                RESULT= (Nodo) b;
             :}
             | condicion: c {: System.out.println("Soy una condicion en termino bool");
-                RESULT= c; :};
+                RESULT= (Nodo) c; :};
 
-expbool ::=  expbool:e1 AND:a termbool:e2 {: System.out.println("Soy un AND");RESULT= e1 +" and "+ e2; :}
-            | expbool:e3 OR:o termbool:e4 {: System.out.println("Soy un OR"); RESULT= e3 +" or "+ e4;:}
+expbool ::=  expbool:e1 AND:a termbool:e2 {:
+            Nodo izquierdo = (Nodo) e1;
+            Nodo derecho = (Nodo) e2;
+            RESULT= new And(izquierdo, derecho);
+        :}
+            | expbool:e3 OR:o termbool:e4 {:
+             Nodo izquierdo = (Nodo) e3;
+            Nodo derecho = (Nodo) e4;
+            RESULT= new Or(izquierdo, derecho);:}
             | termbool:t {: 
-                 RESULT= t;
+                 RESULT= (Nodo) t;
                 :};
 
 termino ::= termino:t POR factor:f {:
-                Expresion ter = (Expresion) t;
-                Expresion fac = (Expresion) f;
-                Expresion nodo = new Multiplicacion(ter,fac); 
+                Nodo ter = (Nodo) t;
+                Nodo fac = (Nodo) f;
+                Nodo nodo = new Multiplicacion(ter,fac); 
                 System.out.println("termino::=factor*termino;");
                 RESULT = nodo;
             :}
             |
             termino:t DIVIDIDO factor:f {:
-                Expresion ter = (Expresion) t;
-                Expresion fac = (Expresion) f;
-                Expresion nodo = new Division(ter,fac); 
+                Nodo ter = (Nodo) t;
+                Nodo fac = (Nodo) f;
+                Nodo nodo = new Division(ter,fac); 
                 System.out.println("termino::=factor/termino;");
                 RESULT = nodo;
             :}
             |
             factor:f {:
-                 RESULT= (Expresion) f;
+                 RESULT= (Nodo) f;
             :}; 
 factor ::= ENTERO:e {:
             Integer entero = null;
@@ -264,5 +303,5 @@ factor ::= ENTERO:e {:
              :}
             |
             PARENABRE exp:e PARENCIERRA {:
-                RESULT = (Expresion) e;
+                RESULT = (Nodo) e;
             :};
