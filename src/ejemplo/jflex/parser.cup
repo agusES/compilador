@@ -14,6 +14,8 @@ import ejemplo.nodos.*;
 
 class MiParser;
 
+
+
 parser code
 {:
     public void syntax_error(Symbol s){
@@ -41,19 +43,31 @@ programa ::= MAIN const vars sentencias
                 System.out.println("Soy un Programa");
             :};
 
-bloque ::= LLAVEABRE sentencias:s LLAVECIERRA {: System.out.println("Soy un bloque"); RESULT=(Nodo)s;:};
+bloque ::= LLAVEABRE sentencias:s LLAVECIERRA {: 
+        System.out.println("Soy un bloque"); 
+        Nodo bloque = new Bloque((List<Nodo>) s);
+        RESULT=bloque;
+:};
 
 
-sentencias ::= sentencias sentencia PUNTO_COMA {: System.out.println("Soy muchas sentencias"); :} 
-| sentencia:s PUNTO_COMA {:System.out.println("Soy una sentencia");
-                            RESULT = (Nodo) s;
+sentencias ::= sentencias:ss sentencia:s PUNTO_COMA {: 
+    System.out.println("Soy muchas sentencias");
+    List<Nodo> bloque = (List<Nodo>) ss;
+    bloque.add((Nodo) s);
+    RESULT = bloque;
+:} 
+| sentencia:s PUNTO_COMA {:
+    List<Nodo> bloque = new ArrayList<Nodo>();
+    System.out.println("Soy una sentencia");
+    bloque.add((Nodo) s);
+    RESULT = bloque;
 :};
 
 const ::= CONST LLAVEABRE constantes LLAVECIERRA{:  
                 System.out.println("SECTOR CONSTANTES");
             :}|{:
                 System.out.println("NO HAY CONSTANTES");
-                RESULT=(Symbol) null;
+                RESULT = null;
 :};
 
 
@@ -96,6 +110,7 @@ vars ::= VARS LLAVEABRE variables LLAVECIERRA
                 System.out.println("SECTOR VARIABLES");
             :}|{:
                 System.out.println("NO HAY VARIABLES");
+                RESULT = null;
 :};
 
 tipo ::= INT:i {:
@@ -134,18 +149,22 @@ ids ::= ID:id {:
 
 :};
 
-sentencia ::= asig:a{: System.out.println("Soy una asignacion simple en una sentencia");
-                        RESULT = (Nodo) a;
+sentencia ::= asig:a{: 
+                System.out.println("Soy una asignacion simple en una sentencia");
+                RESULT = (Nodo) a;
 :} 
-            | asigs {: System.out.println("Soy una asignacion compleja en una sentencia");
-                        
+            | if:i {:
+                System.out.println("Sou un if en una sentencia");
+                RESULT = (Nodo) i;
 :} 
-            | if:i {: System.out.println("Sou un if en una sentencia");
-                    RESULT = (Nodo) i;
+            | while:w {: 
+                System.out.println("Soy un while en una sentencia");
+                 RESULT = (Nodo) w;
 :} 
-            | while {: System.out.println("Soy un while en una sentencia");:} 
-            | until {: System.out.println("Soy un until en una sentencia");:}
-            | show {: System.out.println("Soy un show en una sentencia");:};
+            | show:s {: 
+                System.out.println("Soy un show en una sentencia");
+                RESULT = (Nodo) s;
+:};
 
 asig ::= ID:i IGUAL exp:e {:
     System.out.println("soy una asignacion comun");
@@ -165,15 +184,30 @@ if ::= IF condicion:c THEN bloque:b {:
                 Nodo bloque = (Nodo) b;
                 RESULT = new IfThen(cond, bloque);
        :} |
-       IF condicion THEN bloque ELSE bloque {:
+       IF condicion:c THEN bloque:bloqueThen ELSE bloque:bloqueElse {:
                 System.out.println("Soy un if con else");
+                Nodo cond = (Nodo) c;
+                Nodo bloqueT = (Nodo) bloqueThen;
+                Nodo bloqueE = (Nodo) bloqueElse;
+                RESULT = new IfThenElse(cond, bloqueT, bloqueE);
        :};
 
-while ::= WHILE condicion DO bloque {:System.out.println("Soy un while");:};
+while ::= WHILE condicion:c DO bloque:b {:
+        System.out.println("Soy un while");
+        Nodo cond = (Nodo) c;
+        Nodo bloque = (Nodo) b;
+        Nodo w = new While(cond, bloque);
+        RESULT = w;
+:};
 
-until ::= UNTIL condicion REPEAT bloque {:System.out.println("Soy un until");:};
+until ::= UNTIL condicion:c REPEAT bloque:b {:System.out.println("Soy un until");:};
 
-show ::= SHOW PARENABRE STRING:s PARENCIERRA {:System.out.println("Soy un show con string: " + s.toString());:};
+show ::= SHOW PARENABRE STRING:s PARENCIERRA {:
+        System.out.println("Soy un show con string: " + s.toString());
+        String cadena = s.toString();
+        Nodo show = new Show(cadena);
+        RESULT = show;
+:};
 
 between ::= exp:e1 BETWEEN exp:e2 AND exp:e3 {:
     Nodo valor = (Nodo) e1;
@@ -183,7 +217,7 @@ between ::= exp:e1 BETWEEN exp:e2 AND exp:e3 {:
 :};
 
 condicion ::= comparador:c {: RESULT= c;:}
- | PARENABRE expbool:e3 PARENCIERRA {: RESULT= "(" + e3 +")";:};
+ | PARENABRE expbool:e PARENCIERRA {: RESULT=e;:};
 
 
 comparador ::= PARENABRE exp:e1 MAYOR exp:e2 PARENCIERRA{:

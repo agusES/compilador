@@ -5,6 +5,7 @@
  */
 package ejemplo.nodos;
 
+
 /**
  *
  * @author Flynn
@@ -30,8 +31,5 @@ public abstract class SentenciaIf extends Sentencia {
         return String.format("%s", this.getNombreOperacion());
     }
     protected abstract String getNombreOperacion();
-
-
-
     
 }
