@@ -10,7 +10,7 @@ package ejemplo.nodos;
  *
  * @author Flynn
  */
-public abstract class SentenciaIf extends Sentencia {
+public abstract class SentenciaIf extends Main {
     protected Nodo condicion;
     protected Nodo bloqueThen;
     protected Nodo bloqueElse;

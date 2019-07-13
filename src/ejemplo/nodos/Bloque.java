@@ -12,7 +12,7 @@ import java.util.List;
  *
  * @author Carlos
  */
-public class Bloque extends Nodo{
+public class Bloque extends Main{
     
     List<Nodo> sentencias;
     
@@ -25,7 +25,7 @@ public class Bloque extends Nodo{
         return "Bloque";
     }
     @Override
-    protected String graficar(String idPadre) {
+    public String graficar(String idPadre) {
         final String miId = this.getId();
         String grafico = "";
         for (Nodo s: sentencias) {

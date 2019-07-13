@@ -29,9 +29,9 @@ public class EjemploJavaCup {
             System.out.println("Análisis sintáctico iniciado:");
             MiLexico lexer = new MiLexico(new FileReader(path));
             MiParser parser = new MiParser(lexer);
-            final Sentencia asignacion = (Sentencia) parser.parse().value;
+            final Main main = (Main) parser.parse().value;
              try (PrintWriter pw = new PrintWriter(new FileWriter("arbol.dot"))) {
-                pw.println(asignacion.graficar());
+                pw.println(main.graficar());
             }
         } catch (Exception ex) {
             Logger.getLogger(EjemploJavaCup.class.getName()).log(Level.SEVERE, null, ex);

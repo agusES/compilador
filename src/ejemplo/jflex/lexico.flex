@@ -125,6 +125,7 @@ dec_id =            ([:letter:]|_)\w*
     "+"                         { return token("MAS", yytext()); }
     "-"                         { return token("MENOS", yytext()); }
     ";"                         { return token("PUNTO_COMA", yytext()); }
+    ","                         { return token("COMA", yytext()); }
     ":"                         { return token("DOSPUNTOS", yytext()); }
     "{"                         { return token("LLAVEABRE", yytext()); }
     "}"                         { return token("LLAVECIERRA", yytext()); }

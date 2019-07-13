@@ -9,19 +9,21 @@ package ejemplo.nodos;
  *
  * @author Carlos
  */
-public class Constante extends Nodo {
-    private final Integer valor;
+public class ConstanteFlotante extends Nodo {
+    
+    private final float valor;
 
-    public Constante(Integer valor) {
+    public ConstanteFlotante(float valor) {
         this.valor = valor;
     }
 
-    public Integer getValor() {
+    public float getValor() {
         return valor;
     }
 
     @Override
     protected String getEtiqueta() {
-        return String.format(String.format("Number Const %s", getValor()));
+        return String.format(String.format("Float Const %s", getValor()));
     }
+    
 }

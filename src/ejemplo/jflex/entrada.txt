@@ -1,14 +1,23 @@
+main
+const {
+    aux: int = 1;
+    aux: int = 2;
+}
 if (1>2) then {
     if (id < 10) then {
         cant = 0;
-    };
+    }
     id = 3;
+    show("Queremos show");
 } else {
     if (id2 < 10) then {
         aux = 0;
-    };
-    if (id2 < 10) then {
+    }
+    if (.T.) then {
         aux = 0;
-    };
+    }
     id = 0;
+}
+while(.T.) do {
+    show("Este mensaje se mostrara por siempre");
 }

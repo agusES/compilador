@@ -9,7 +9,7 @@ package ejemplo.nodos;
  *
  * @author Carlos
  */
-public class While extends Nodo{
+public class While extends Main{
     
     protected Nodo condicion;
     protected Nodo bloque;
@@ -20,14 +20,10 @@ public class While extends Nodo{
         this.condicion = condicion;
         this.bloque = bloque;
     }
-    
-    @Override
-    protected String getEtiqueta() {
-        return String.format("%s", this.getNombreOperacion());
-    }
+   
     
     protected String getNombreOperacion() {
-        return "while";
+        return "While";
     }
     
     @Override

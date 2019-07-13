@@ -8,20 +8,20 @@ package ejemplo.jflex;
 /** CUP generated class containing symbol constants. */
 public class MiParserSym {
   /* terminals */
-  public static final int DOSPUNTOS = 39;
+  public static final int DOSPUNTOS = 40;
   public static final int SHOW = 22;
   public static final int CONST = 3;
   public static final int POR = 20;
-  public static final int ENTERO = 40;
+  public static final int ENTERO = 41;
   public static final int VARS = 7;
-  public static final int BETWEEN = 34;
-  public static final int PARENABRE = 36;
+  public static final int BETWEEN = 35;
+  public static final int PARENABRE = 37;
   public static final int REPEAT = 17;
   public static final int INT = 8;
-  public static final int AND = 32;
-  public static final int IGUAL = 38;
+  public static final int AND = 33;
+  public static final int IGUAL = 39;
   public static final int DIVIDIDO = 21;
-  public static final int OR = 33;
+  public static final int OR = 34;
   public static final int UNTIL = 16;
   public static final int MAIN = 2;
   public static final int IF = 11;
@@ -31,10 +31,11 @@ public class MiParserSym {
   public static final int BOOLEAN = 10;
   public static final int MENOREQUAL = 28;
   public static final int EQUAL = 25;
-  public static final int TRUE = 30;
+  public static final int TRUE = 31;
   public static final int LLAVEABRE = 4;
   public static final int error = 1;
   public static final int LLAVECIERRA = 5;
+  public static final int COMA = 30;
   public static final int MENOS = 19;
   public static final int MENOR = 24;
   public static final int MAYOR = 23;
@@ -43,11 +44,11 @@ public class MiParserSym {
   public static final int WHILE = 14;
   public static final int FLOAT = 9;
   public static final int THEN = 12;
-  public static final int STRING = 35;
+  public static final int STRING = 36;
   public static final int DIFF = 26;
-  public static final int FALSE = 31;
-  public static final int PARENCIERRA = 37;
-  public static final int FLOTANTE = 41;
+  public static final int FALSE = 32;
+  public static final int PARENCIERRA = 38;
+  public static final int FLOTANTE = 42;
   public static final int DO = 15;
   public static final int MAS = 18;
   public static final String[] terminalNames = new String[] {
@@ -81,6 +82,7 @@ public class MiParserSym {
   "MAYOREQUAL",
   "MENOREQUAL",
   "PUNTO_COMA",
+  "COMA",
   "TRUE",
   "FALSE",
   "AND",

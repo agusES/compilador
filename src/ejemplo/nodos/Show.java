@@ -9,19 +9,14 @@ package ejemplo.nodos;
  *
  * @author Carlos
  */
-public class Show extends Nodo {
+public class Show extends Main {
     
-    protected String cadena;
+    protected Nodo cadena;
     
     public Show() {}
     
-    public Show(String cadena) {
+    public Show(Nodo cadena) {
         this.cadena = cadena;
-    }
-    
-    @Override
-    protected String getEtiqueta() {
-        return String.format("%s", this.getNombreOperacion());
     }
     
     protected String getNombreOperacion() {
@@ -32,6 +27,6 @@ public class Show extends Nodo {
     protected String graficar(String idPadre) {
         final String miId = this.getId();
         return super.graficar(idPadre)
-                + cadena;
+                + cadena.graficar(miId);
     }
 }

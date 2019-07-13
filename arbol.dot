@@ -1,72 +1,84 @@
-graph G {nodo_1173230247 [label="If Then Else"]
-nodo_491044090 [label=">"]
-nodo_1173230247 -- nodo_491044090
-nodo_644117698 [label="Const 1"]
-nodo_491044090 -- nodo_644117698
-nodo_1872034366 [label="Const 2"]
-nodo_491044090 -- nodo_1872034366
-nodo_1581781576 [label="Bloque"]
-nodo_1173230247 -- nodo_1581781576
-nodo_1725154839 [label="If Then"]
-nodo_1581781576 -- nodo_1725154839
-nodo_1670675563 [label="<"]
+graph G {nodo_1173230247 [label="Main"]
+nodo_856419764 [label="If Then Else"]
+nodo_1173230247 -- nodo_856419764
+nodo_644117698 [label=">"]
+nodo_856419764 -- nodo_644117698
+nodo_1872034366 [label="Number Const 1"]
+nodo_644117698 -- nodo_1872034366
+nodo_1581781576 [label="Number Const 2"]
+nodo_644117698 -- nodo_1581781576
+nodo_1725154839 [label="Then"]
+nodo_856419764 -- nodo_1725154839
+nodo_1670675563 [label="If Then"]
 nodo_1725154839 -- nodo_1670675563
-nodo_723074861 [label="ID id"]
+nodo_723074861 [label="<"]
 nodo_1670675563 -- nodo_723074861
-nodo_895328852 [label="Const 10"]
-nodo_1670675563 -- nodo_895328852
-nodo_1304836502 [label="Bloque"]
-nodo_1725154839 -- nodo_1304836502
-nodo_225534817 [label="="]
-nodo_1304836502 -- nodo_225534817
-nodo_1878246837 [label="ID cant"]
+nodo_895328852 [label="ID id"]
+nodo_723074861 -- nodo_895328852
+nodo_1304836502 [label="Number Const 10"]
+nodo_723074861 -- nodo_1304836502
+nodo_225534817 [label="Then"]
+nodo_1670675563 -- nodo_225534817
+nodo_1878246837 [label="="]
 nodo_225534817 -- nodo_1878246837
-nodo_929338653 [label="Const 0"]
-nodo_225534817 -- nodo_929338653
-nodo_1259475182 [label="="]
-nodo_1581781576 -- nodo_1259475182
-nodo_1300109446 [label="ID id"]
-nodo_1259475182 -- nodo_1300109446
-nodo_1020371697 [label="Const 3"]
-nodo_1259475182 -- nodo_1020371697
-nodo_789451787 [label="Bloque"]
-nodo_1173230247 -- nodo_789451787
-nodo_1950409828 [label="If Then"]
-nodo_789451787 -- nodo_1950409828
-nodo_1229416514 [label="<"]
+nodo_929338653 [label="ID cant"]
+nodo_1878246837 -- nodo_929338653
+nodo_1259475182 [label="Number Const 0"]
+nodo_1878246837 -- nodo_1259475182
+nodo_1300109446 [label="="]
+nodo_1725154839 -- nodo_1300109446
+nodo_1020371697 [label="ID id"]
+nodo_1300109446 -- nodo_1020371697
+nodo_789451787 [label="Number Const 3"]
+nodo_1300109446 -- nodo_789451787
+nodo_1950409828 [label="Show"]
+nodo_1725154839 -- nodo_1950409828
+nodo_1229416514 [label="String Const Queremos show"]
 nodo_1950409828 -- nodo_1229416514
-nodo_2016447921 [label="ID id2"]
-nodo_1229416514 -- nodo_2016447921
-nodo_666988784 [label="Const 10"]
-nodo_1229416514 -- nodo_666988784
-nodo_1414644648 [label="Bloque"]
-nodo_1950409828 -- nodo_1414644648
-nodo_640070680 [label="="]
+nodo_2016447921 [label="Else"]
+nodo_856419764 -- nodo_2016447921
+nodo_666988784 [label="If Then"]
+nodo_2016447921 -- nodo_666988784
+nodo_1414644648 [label="<"]
+nodo_666988784 -- nodo_1414644648
+nodo_640070680 [label="ID id2"]
 nodo_1414644648 -- nodo_640070680
-nodo_1510467688 [label="ID aux"]
-nodo_640070680 -- nodo_1510467688
-nodo_1995265320 [label="Const 0"]
-nodo_640070680 -- nodo_1995265320
-nodo_746292446 [label="If Then"]
-nodo_789451787 -- nodo_746292446
-nodo_1072591677 [label="<"]
+nodo_1510467688 [label="Number Const 10"]
+nodo_1414644648 -- nodo_1510467688
+nodo_1995265320 [label="Then"]
+nodo_666988784 -- nodo_1995265320
+nodo_746292446 [label="="]
+nodo_1995265320 -- nodo_746292446
+nodo_1072591677 [label="ID aux"]
 nodo_746292446 -- nodo_1072591677
-nodo_1523554304 [label="ID id2"]
-nodo_1072591677 -- nodo_1523554304
-nodo_1175962212 [label="Const 10"]
-nodo_1072591677 -- nodo_1175962212
-nodo_918221580 [label="Bloque"]
-nodo_746292446 -- nodo_918221580
-nodo_2055281021 [label="="]
-nodo_918221580 -- nodo_2055281021
-nodo_1554547125 [label="ID aux"]
+nodo_1523554304 [label="Number Const 0"]
+nodo_746292446 -- nodo_1523554304
+nodo_1175962212 [label="If Then"]
+nodo_2016447921 -- nodo_1175962212
+nodo_918221580 [label="Bool Const true"]
+nodo_1175962212 -- nodo_918221580
+nodo_2055281021 [label="Then"]
+nodo_1175962212 -- nodo_2055281021
+nodo_1554547125 [label="="]
 nodo_2055281021 -- nodo_1554547125
-nodo_617901222 [label="Const 0"]
-nodo_2055281021 -- nodo_617901222
-nodo_1159190947 [label="="]
-nodo_789451787 -- nodo_1159190947
-nodo_925858445 [label="ID id"]
-nodo_1159190947 -- nodo_925858445
-nodo_798154996 [label="Const 0"]
-nodo_1159190947 -- nodo_798154996
+nodo_617901222 [label="ID aux"]
+nodo_1554547125 -- nodo_617901222
+nodo_1159190947 [label="Number Const 0"]
+nodo_1554547125 -- nodo_1159190947
+nodo_925858445 [label="="]
+nodo_2016447921 -- nodo_925858445
+nodo_798154996 [label="ID id"]
+nodo_925858445 -- nodo_798154996
+nodo_681842940 [label="Number Const 0"]
+nodo_925858445 -- nodo_681842940
+nodo_1392838282 [label="While"]
+nodo_1173230247 -- nodo_1392838282
+nodo_523429237 [label="Bool Const true"]
+nodo_1392838282 -- nodo_523429237
+nodo_664740647 [label="Bloque While"]
+nodo_1392838282 -- nodo_664740647
+nodo_804564176 [label="Show"]
+nodo_664740647 -- nodo_804564176
+nodo_1421795058 [label="String Const Este mensaje se mostrara por siempre"]
+nodo_804564176 -- nodo_1421795058
 }

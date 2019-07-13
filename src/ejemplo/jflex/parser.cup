@@ -3,6 +3,8 @@ package ejemplo.jflex;
 import java_cup.runtime.*;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.HashMap;
+import java.util.Map;
 import java.io.FileReader;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -27,21 +29,33 @@ parser code
         System.out.println("Error en la linea "+ (s.left+1)+ " Columna "+ s.right+ ". Valor simbolo '"
         +s.value+"' . Simbolo n° "+s.sym+ " no reconocido." );
     }
+    public Map<String, Simbolo> tablaDeSimbolos = new HashMap<String, Simbolo>();
 
 :};
 
 
 terminal MAIN, CONST, LLAVEABRE, LLAVECIERRA, ID, VARS, INT, FLOAT, BOOLEAN, IF, THEN, ELSE, WHILE, DO , UNTIL, REPEAT, MAS, MENOS, POR, DIVIDIDO, SHOW;
-terminal MAYOR, MENOR, EQUAL, DIFF, MAYOREQUAL, MENOREQUAL, PUNTO_COMA, TRUE, FALSE, AND, OR, BETWEEN, STRING, PARENABRE, PARENCIERRA, IGUAL, DOSPUNTOS, ENTERO, FLOTANTE;
+terminal MAYOR, MENOR, EQUAL, DIFF, MAYOREQUAL, MENOREQUAL, PUNTO_COMA, COMA, TRUE, FALSE, AND, OR, BETWEEN, STRING, PARENABRE, PARENCIERRA, IGUAL, DOSPUNTOS, ENTERO, FLOTANTE;
 nonterminal programa, const, constantes, constante, vars, sentencias, variables, variable, termino, factor, comparador, termbool;
 nonterminal expbool, between, bloque, ids, sentencia, asig, asigs, if, while, until, condicion, exp, tipo, show;
 
-start with sentencia;
+start with programa;
 
-programa ::= MAIN const vars sentencias
+programa ::= MAIN const vars sentencias:ss
             {:  
+                List<Nodo> sentencias = (List<Nodo>) ss;
+                Nodo bloque = new Bloque(sentencias);
+                bloque.setNombre("Main");
                 System.out.println("Soy un Programa");
-            :};
+                RESULT = bloque;
+            :} | MAIN const sentencias:ss {:
+                List<Nodo> sentencias = (List<Nodo>) ss;
+                Nodo bloque = new Bloque(sentencias);
+                bloque.setNombre("Main");
+                System.out.println("Soy un Programa");
+                RESULT = bloque;
+            :}
+;
 
 bloque ::= LLAVEABRE sentencias:s LLAVECIERRA {: 
         System.out.println("Soy un bloque"); 
@@ -50,13 +64,13 @@ bloque ::= LLAVEABRE sentencias:s LLAVECIERRA {:
 :};
 
 
-sentencias ::= sentencias:ss sentencia:s PUNTO_COMA {: 
+sentencias ::= sentencias:ss sentencia:s {: 
     System.out.println("Soy muchas sentencias");
     List<Nodo> bloque = (List<Nodo>) ss;
     bloque.add((Nodo) s);
     RESULT = bloque;
 :} 
-| sentencia:s PUNTO_COMA {:
+| sentencia:s {:
     List<Nodo> bloque = new ArrayList<Nodo>();
     System.out.println("Soy una sentencia");
     bloque.add((Nodo) s);
@@ -65,9 +79,7 @@ sentencias ::= sentencias:ss sentencia:s PUNTO_COMA {:
 
 const ::= CONST LLAVEABRE constantes LLAVECIERRA{:  
                 System.out.println("SECTOR CONSTANTES");
-            :}|{:
-                System.out.println("NO HAY CONSTANTES");
-                RESULT = null;
+           
 :};
 
 
@@ -78,22 +90,28 @@ constantes ::= constante {:
                 System.out.println("VARIAS CONSTANTES");
 :};
 
-constante ::= ID DOSPUNTOS tipo:t IGUAL exp:e PUNTO_COMA{:
+constante ::= ID:id DOSPUNTOS tipo:t IGUAL exp:e PUNTO_COMA{:
                 System.out.println("CONSTANTE");
+                String tipo;
+                String key = id.toString();
+                Constante exp = (Constante) e;
                 switch(t.toString()){
                     case "int":
-                        if (!(Integer.class.isInstance(e))) {
+                        tipo = "int";
+                        if (!(Integer.class.isInstance(exp.getValor()))) {
                             System.out.println("ERROR EN TIPO ENTERO");
                             throw new IllegalArgumentException ("El argumento debe ser un número entero");
                         }
                         break;
                     case "float":
+                        tipo = "float";
                         if (!(Float.class.isInstance(e))) {
                             System.out.println("ERROR EN TIPO FLOTANTE");
                             throw new IllegalArgumentException ("El argumento debe ser un número flotante");
                         }
                         break;
                     case "boolean":
+                        tipo = "boolean";
                         if (e != ".T." && e != ".F.") {
                             System.out.println("ERROR EN TIPO BOOLEANO");
                             throw new IllegalArgumentException ("El argumento debe ser una expresion booleana");
@@ -101,16 +119,23 @@ constante ::= ID DOSPUNTOS tipo:t IGUAL exp:e PUNTO_COMA{:
                         break;
                     default:
                         System.out.println("NO ES UN TIPO");
-                        break; 
+                        throw new Exception ("Tipo de dato inexistente"); 
                 }
+                Simbolo s = new Simbolo(key, exp.getValor().toString(), tipo, true);
+                if (tablaDeSimbolos.containsKey(key)) {
+                    throw new Exception("Constante ya definida");
+                } else {
+                    tablaDeSimbolos.put(key, s);
+                }
+                System.out.println("Tabla: " + tablaDeSimbolos.toString());
+
+                
+                
 :};
 
 vars ::= VARS LLAVEABRE variables LLAVECIERRA
             {:  
                 System.out.println("SECTOR VARIABLES");
-            :}|{:
-                System.out.println("NO HAY VARIABLES");
-                RESULT = null;
 :};
 
 tipo ::= INT:i {:
@@ -144,12 +169,12 @@ variable ::= ids DOSPUNTOS tipo PUNTO_COMA{:
 ids ::= ID:id {:
         System.out.println("UN ID");
         RESULT = new Identificador("id");
-:} | ids ID {:
+:} | ids:idss COMA ID:id {:
         System.out.println("VARIOS IDS");
 
 :};
 
-sentencia ::= asig:a{: 
+sentencia ::= asig:a PUNTO_COMA{: 
                 System.out.println("Soy una asignacion simple en una sentencia");
                 RESULT = (Nodo) a;
 :} 
@@ -161,7 +186,7 @@ sentencia ::= asig:a{:
                 System.out.println("Soy un while en una sentencia");
                  RESULT = (Nodo) w;
 :} 
-            | show:s {: 
+            | show:s PUNTO_COMA {: 
                 System.out.println("Soy un show en una sentencia");
                 RESULT = (Nodo) s;
 :};
@@ -182,13 +207,16 @@ asigs ::= ID IGUAL asig {:
 if ::= IF condicion:c THEN bloque:b {: 
                 Nodo cond = (Nodo) c;
                 Nodo bloque = (Nodo) b;
+                bloque.setNombre("Then");
                 RESULT = new IfThen(cond, bloque);
        :} |
        IF condicion:c THEN bloque:bloqueThen ELSE bloque:bloqueElse {:
                 System.out.println("Soy un if con else");
                 Nodo cond = (Nodo) c;
                 Nodo bloqueT = (Nodo) bloqueThen;
+                bloqueT.setNombre("Then");
                 Nodo bloqueE = (Nodo) bloqueElse;
+                bloqueE.setNombre("Else");
                 RESULT = new IfThenElse(cond, bloqueT, bloqueE);
        :};
 
@@ -196,6 +224,7 @@ while ::= WHILE condicion:c DO bloque:b {:
         System.out.println("Soy un while");
         Nodo cond = (Nodo) c;
         Nodo bloque = (Nodo) b;
+        bloque.setNombre("Bloque While");
         Nodo w = new While(cond, bloque);
         RESULT = w;
 :};
@@ -205,7 +234,8 @@ until ::= UNTIL condicion:c REPEAT bloque:b {:System.out.println("Soy un until")
 show ::= SHOW PARENABRE STRING:s PARENCIERRA {:
         System.out.println("Soy un show con string: " + s.toString());
         String cadena = s.toString();
-        Nodo show = new Show(cadena);
+        Nodo constanteString = new ConstanteString(cadena);
+        Nodo show = new Show(constanteString);
         RESULT = show;
 :};
 
@@ -329,7 +359,7 @@ factor ::= ENTERO:e {:
             }catch(NumberFormatException  ex){
                 System.out.println("El valor no corresponde a un número flotante");
             }    
-            RESULT= new Constante(flotante);
+            RESULT= new ConstanteFlotante(flotante);
              :}
              |
              ID:identificador {:
