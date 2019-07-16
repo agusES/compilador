@@ -1,7 +1,6 @@
 main
 const {
     aux: int = 1;
-    aux: int = 2;
 }
 if (1>2) then {
     if (id < 10) then {

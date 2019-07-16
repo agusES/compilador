@@ -136,43 +136,71 @@ constante ::= ID:id DOSPUNTOS tipo:t IGUAL exp:e PUNTO_COMA{:
 vars ::= VARS LLAVEABRE variables LLAVECIERRA
             {:  
                 System.out.println("SECTOR VARIABLES");
-:};
+            :};
 
 tipo ::= INT:i {:
             System.out.println("Soy un tipo ENTERO");
             RESULT = i;
-        :} 
-        | FLOAT:f {:
-            System.out.println("Soy un tipo FLOAT");
-            RESULT = f;
-        :}
-        | BOOLEAN:b {:
-            System.out.println("Soy un tipo BOOLEAN");
-            RESULT = b;
-        :}
-        ;
+            :} 
+            | FLOAT:f {:
+                System.out.println("Soy un tipo FLOAT");
+                RESULT = f;
+            :}
+            | BOOLEAN:b {:
+                System.out.println("Soy un tipo BOOLEAN");
+                RESULT = b;
+            :};
 
 variables ::= variable {:
                 System.out.println("UNA VARIABLE");
 
-:} |
+            :} |
               variables variable {:
                 System.out.println("VARIAS VARIABLES");
+            :};
 
-:};
-
-variable ::= ids DOSPUNTOS tipo PUNTO_COMA{:
+variable ::= ids:ids DOSPUNTOS tipo:t PUNTO_COMA{:
                 System.out.println("VARIABLE");
+                String tipo;
+                switch(t.toString()){
+                    case "int":
+                        tipo = "int";
+                        break;
+                    case "float":
+                        tipo = "float";
+                        
+                        break;
+                    case "boolean":
+                        tipo = "boolean";                        
+                        break;
+                    default:
+                        System.out.println("NO ES UN TIPO");
+                        throw new Exception ("Tipo de dato inexistente"); 
+                }
+                List<Nodo> listaNodos = new ArrayList<Nodo>(idss);
+                for (Nodo variable : listaNodos) {                
+                    Simbolo s = new Simbolo(variable.getValor(), null, t);
+                }
+                if (tablaDeSimbolos.containsKey(key)) {
+                    throw new Exception("Constante ya definida");
+                } else {
+                    tablaDeSimbolos.put(key, s);
+                }
+                System.out.println("Tabla: " + tablaDeSimbolos.toString());
 
-:};
+            :};
 
 ids ::= ID:id {:
         System.out.println("UN ID");
-        RESULT = new Identificador("id");
-:} | ids:idss COMA ID:id {:
-        System.out.println("VARIOS IDS");
-
-:};
+        List<Nodo> listaIds = new ArrayList<Nodo>();
+        listaIds.add((Nodo) new Identificador(id.toString()));
+        RESULT = listaIds;
+        :} 
+        | ids:idss COMA ID:id {:
+                System.out.println("VARIOS IDS");
+                idss.add((Nodo) new Identificador(id.toString()));
+                RESULT = idss;
+        :};
 
 sentencia ::= asig:a PUNTO_COMA{: 
                 System.out.println("Soy una asignacion simple en una sentencia");

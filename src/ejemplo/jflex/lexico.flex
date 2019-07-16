@@ -50,7 +50,7 @@ import java.io.OutputStream;
     * Típicamente serán variables de instancia o nuevos métodos de la clase.
     *************************************************************************/
     public byte[] entrada;
-    public static String FILEPATH = "C:\\Users\\carlos\\ts.txt"; 
+    public static String FILEPATH = "C:\\Users\\flynn\\ts.txt"; 
     public static File file = new File(FILEPATH);     
     public StringBuffer string = new StringBuffer();
     public ArrayList<MiToken> tablaDeSimbolos = new ArrayList<>();
