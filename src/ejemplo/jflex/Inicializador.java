@@ -16,11 +16,11 @@ public class Inicializador<T> {
     private T valor;
     private T tipoParametro;
     
-    public Inicializador(Class<T> tipo) {
-        switch(tipo.class) {
-            case "int":
-                this
-        }
+    public Inicializador() {
+//        switch(tipo.class) {
+//            case "int":
+//                this
+//        }
                 
     }
     

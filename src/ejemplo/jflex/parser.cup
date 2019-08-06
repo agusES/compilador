@@ -162,29 +162,32 @@ variables ::= variable {:
 variable ::= ids:ids DOSPUNTOS tipo:t PUNTO_COMA{:
                 System.out.println("VARIABLE");
                 String tipo;
+                String valor;
                 switch(t.toString()){
                     case "int":
                         tipo = "int";
+                        valor = "0";
                         break;
                     case "float":
                         tipo = "float";
-                        
+                        valor = "0.0";
                         break;
                     case "boolean":
-                        tipo = "boolean";                        
+                        tipo = "boolean";
+                        valor = "false";
                         break;
                     default:
                         System.out.println("NO ES UN TIPO");
                         throw new Exception ("Tipo de dato inexistente"); 
                 }
-                List<Nodo> listaNodos = new ArrayList<Nodo>(idss);
-                for (Nodo variable : listaNodos) {                
-                    Simbolo s = new Simbolo(variable.getValor(), null, t);
-                }
-                if (tablaDeSimbolos.containsKey(key)) {
-                    throw new Exception("Constante ya definida");
-                } else {
-                    tablaDeSimbolos.put(key, s);
+                List<Identificador> listaNodos = (ArrayList<Identificador>)ids;
+                for (Identificador variable : listaNodos) {                
+                    Simbolo s = new Simbolo(variable.getValor(), valor, tipo);
+                    if (tablaDeSimbolos.containsKey(variable.getValor())) {
+                        throw new Exception("Identificador ya definida");
+                    } else {
+                        tablaDeSimbolos.put(variable.getValor(), s);
+                    }
                 }
                 System.out.println("Tabla: " + tablaDeSimbolos.toString());
 
@@ -197,8 +200,9 @@ ids ::= ID:id {:
         RESULT = listaIds;
         :} 
         | ids:idss COMA ID:id {:
+                List<Nodo> listaIds = (ArrayList<Nodo>) idss;
                 System.out.println("VARIOS IDS");
-                idss.add((Nodo) new Identificador(id.toString()));
+                listaIds.add(new Identificador(id.toString()));
                 RESULT = idss;
         :};
 

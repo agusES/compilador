@@ -531,7 +531,7 @@ class CUP$MiParser$actions {
               Object RESULT =null;
 		  
                 System.out.println("SECTOR VARIABLES");
-
+            
               CUP$MiParser$result = parser.getSymbolFactory().newSymbol("vars",4, ((java_cup.runtime.Symbol)CUP$MiParser$stack.elementAt(CUP$MiParser$top-3)), ((java_cup.runtime.Symbol)CUP$MiParser$stack.peek()), RESULT);
             }
           return CUP$MiParser$result;
@@ -546,7 +546,7 @@ class CUP$MiParser$actions {
 		
             System.out.println("Soy un tipo ENTERO");
             RESULT = i;
-        
+            
               CUP$MiParser$result = parser.getSymbolFactory().newSymbol("tipo",24, ((java_cup.runtime.Symbol)CUP$MiParser$stack.peek()), ((java_cup.runtime.Symbol)CUP$MiParser$stack.peek()), RESULT);
             }
           return CUP$MiParser$result;
@@ -559,9 +559,9 @@ class CUP$MiParser$actions {
 		int fright = ((java_cup.runtime.Symbol)CUP$MiParser$stack.peek()).right;
 		Object f = (Object)((java_cup.runtime.Symbol) CUP$MiParser$stack.peek()).value;
 		
-            System.out.println("Soy un tipo FLOAT");
-            RESULT = f;
-        
+                System.out.println("Soy un tipo FLOAT");
+                RESULT = f;
+            
               CUP$MiParser$result = parser.getSymbolFactory().newSymbol("tipo",24, ((java_cup.runtime.Symbol)CUP$MiParser$stack.peek()), ((java_cup.runtime.Symbol)CUP$MiParser$stack.peek()), RESULT);
             }
           return CUP$MiParser$result;
@@ -574,9 +574,9 @@ class CUP$MiParser$actions {
 		int bright = ((java_cup.runtime.Symbol)CUP$MiParser$stack.peek()).right;
 		Object b = (Object)((java_cup.runtime.Symbol) CUP$MiParser$stack.peek()).value;
 		
-            System.out.println("Soy un tipo BOOLEAN");
-            RESULT = b;
-        
+                System.out.println("Soy un tipo BOOLEAN");
+                RESULT = b;
+            
               CUP$MiParser$result = parser.getSymbolFactory().newSymbol("tipo",24, ((java_cup.runtime.Symbol)CUP$MiParser$stack.peek()), ((java_cup.runtime.Symbol)CUP$MiParser$stack.peek()), RESULT);
             }
           return CUP$MiParser$result;
@@ -588,7 +588,7 @@ class CUP$MiParser$actions {
 		
                 System.out.println("UNA VARIABLE");
 
-
+            
               CUP$MiParser$result = parser.getSymbolFactory().newSymbol("variables",6, ((java_cup.runtime.Symbol)CUP$MiParser$stack.peek()), ((java_cup.runtime.Symbol)CUP$MiParser$stack.peek()), RESULT);
             }
           return CUP$MiParser$result;
@@ -599,8 +599,7 @@ class CUP$MiParser$actions {
               Object RESULT =null;
 		
                 System.out.println("VARIAS VARIABLES");
-
-
+            
               CUP$MiParser$result = parser.getSymbolFactory().newSymbol("variables",6, ((java_cup.runtime.Symbol)CUP$MiParser$stack.elementAt(CUP$MiParser$top-1)), ((java_cup.runtime.Symbol)CUP$MiParser$stack.peek()), RESULT);
             }
           return CUP$MiParser$result;
@@ -609,10 +608,45 @@ class CUP$MiParser$actions {
           case 16: // variable ::= ids DOSPUNTOS tipo PUNTO_COMA 
             {
               Object RESULT =null;
+		int idsleft = ((java_cup.runtime.Symbol)CUP$MiParser$stack.elementAt(CUP$MiParser$top-3)).left;
+		int idsright = ((java_cup.runtime.Symbol)CUP$MiParser$stack.elementAt(CUP$MiParser$top-3)).right;
+		Object ids = (Object)((java_cup.runtime.Symbol) CUP$MiParser$stack.elementAt(CUP$MiParser$top-3)).value;
+		int tleft = ((java_cup.runtime.Symbol)CUP$MiParser$stack.elementAt(CUP$MiParser$top-1)).left;
+		int tright = ((java_cup.runtime.Symbol)CUP$MiParser$stack.elementAt(CUP$MiParser$top-1)).right;
+		Object t = (Object)((java_cup.runtime.Symbol) CUP$MiParser$stack.elementAt(CUP$MiParser$top-1)).value;
 		
                 System.out.println("VARIABLE");
+                String tipo;
+                String valor;
+                switch(t.toString()){
+                    case "int":
+                        tipo = "int";
+                        valor = "0";
+                        break;
+                    case "float":
+                        tipo = "float";
+                        valor = "0.0";
+                        break;
+                    case "boolean":
+                        tipo = "boolean";
+                        valor = "false";
+                        break;
+                    default:
+                        System.out.println("NO ES UN TIPO");
+                        throw new Exception ("Tipo de dato inexistente"); 
+                }
+                List<Identificador> listaNodos = (ArrayList<Identificador>)ids;
+                for (Identificador variable : listaNodos) {                
+                    Simbolo s = new Simbolo(variable.getValor(), valor, tipo);
+                    if (tablaDeSimbolos.containsKey(variable.getValor())) {
+                        throw new Exception("Identificador ya definida");
+                    } else {
+                        tablaDeSimbolos.put(variable.getValor(), s);
+                    }
+                }
+                System.out.println("Tabla: " + tablaDeSimbolos.toString());
 
-
+            
               CUP$MiParser$result = parser.getSymbolFactory().newSymbol("variable",7, ((java_cup.runtime.Symbol)CUP$MiParser$stack.elementAt(CUP$MiParser$top-3)), ((java_cup.runtime.Symbol)CUP$MiParser$stack.peek()), RESULT);
             }
           return CUP$MiParser$result;
@@ -626,8 +660,10 @@ class CUP$MiParser$actions {
 		Object id = (Object)((java_cup.runtime.Symbol) CUP$MiParser$stack.peek()).value;
 		
         System.out.println("UN ID");
-        RESULT = new Identificador("id");
-
+        List<Nodo> listaIds = new ArrayList<Nodo>();
+        listaIds.add((Nodo) new Identificador(id.toString()));
+        RESULT = listaIds;
+        
               CUP$MiParser$result = parser.getSymbolFactory().newSymbol("ids",15, ((java_cup.runtime.Symbol)CUP$MiParser$stack.peek()), ((java_cup.runtime.Symbol)CUP$MiParser$stack.peek()), RESULT);
             }
           return CUP$MiParser$result;
@@ -643,9 +679,11 @@ class CUP$MiParser$actions {
 		int idright = ((java_cup.runtime.Symbol)CUP$MiParser$stack.peek()).right;
 		Object id = (Object)((java_cup.runtime.Symbol) CUP$MiParser$stack.peek()).value;
 		
-        System.out.println("VARIOS IDS");
-
-
+                List<Nodo> listaIds = (ArrayList<Nodo>) idss;
+                System.out.println("VARIOS IDS");
+                listaIds.add(new Identificador(id.toString()));
+                RESULT = idss;
+        
               CUP$MiParser$result = parser.getSymbolFactory().newSymbol("ids",15, ((java_cup.runtime.Symbol)CUP$MiParser$stack.elementAt(CUP$MiParser$top-2)), ((java_cup.runtime.Symbol)CUP$MiParser$stack.peek()), RESULT);
             }
           return CUP$MiParser$result;
